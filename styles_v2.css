@@ -145,7 +145,7 @@ body::before {
 .term-title { margin-left: 15px; color: var(--text-dim); font-size: 0.9rem; font-family: 'Space Mono', monospace; font-weight: 600; }
 .terminal-body { padding: 25px; height: 320px; overflow: hidden; font-family: 'Space Mono', monospace; font-size: 0.95rem; color: var(--primary); line-height: 1.6; display: flex; flex-direction: column; justify-content: flex-end; }
 .term-line { margin-bottom: 10px; opacity: 0; animation: fadeIn 0.3s forwards; word-wrap: break-word; }
-.term-line.action { color: var(--accent); font-weight: bold; } .term-line.success { color: #27c93f; font-weight: bold; }
+.term-line.action { color: var(--primary); font-weight: bold; text-shadow: 0 0 8px var(--primary); } .term-line.success { color: #27c93f; font-weight: bold; }
 
 @keyframes fadeIn { to { opacity: 1; } }
 
