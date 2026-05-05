@@ -164,12 +164,12 @@ function initNetwork() {
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const material = new THREE.PointsMaterial({ size: 0.1, color: 0x00e5ff });
+    const material = new THREE.PointsMaterial({ size: 0.1, color: 0x0284c7 });
     particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
     // Initial Line setup (empty)
-    const linesMaterial = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.15 });
+    const linesMaterial = new THREE.LineBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.15 });
     linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), linesMaterial);
     scene.add(linesMesh);
 
