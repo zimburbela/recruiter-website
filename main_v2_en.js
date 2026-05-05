@@ -167,7 +167,7 @@ function initTerminalSimulation() {
     if (!termBody) return;
 
     const logs = [
-        "⚡ Initializing TalentPulse AI v3.0...",
+        "⚡ Initializing AI Recruiter Engine v3.0...",
         "🔗 Connecting to Telegram API...",
         { text: "✅ Connection established. Status: ONLINE", class: "success" },
         "🔍 Scanning group: 'Frontend Developers UK'...",

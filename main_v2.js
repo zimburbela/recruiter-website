@@ -171,7 +171,7 @@ function initTerminalSimulation() {
     if (!termBody) return;
 
     const logs = [
-        "⚡ Ініціалізація TalentPulse AI v3.0...",
+        "⚡ Ініціалізація AI Recruiter Engine v3.0...",
         "🔗 Підключення до Telegram API...",
         { text: "✅ З'єднання встановлено. Статус: ONLINE", class: "success" },
         "🔍 Сканування групи: 'Frontend Developers UA'...",
