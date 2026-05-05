@@ -3,164 +3,584 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autonomous AI Recruiter | The Future of Hiring</title>
-    <meta name="description" content="An autonomous AI recruiter that finds, analyzes, and contacts the best candidates on Telegram 24/7.">
+    <title>TalentPulse AI | Autonomous AI Recruiter</title>
+    <meta name="description" content="Next-generation autonomous AI recruiter. Finds, analyzes, and contacts the best candidates on Telegram 24/7. 100% hiring automation.">
+    <meta name="keywords" content="AI recruiter, artificial intelligence, hiring automation, Telegram bot, candidate search">
+    <meta property="og:title" content="TalentPulse AI — Autonomous AI Recruiter">
+    <meta property="og:description" content="Find the perfect candidates in minutes, not weeks. AI recruiter working 24/7 on Telegram.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Modern Premium Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles_v2.css">
     
-    <!-- External Libraries -->
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
 </head>
 <body>
-    <!-- Ambient 3D Cursor Glow -->
+    <!-- Ambient Cursor Glow -->
     <div class="cursor-glow"></div>
-
-    <!-- 3D Background Canvas -->
+    
+    <!-- 3D Network Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <header>
+    <!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+    <header id="header">
         <nav class="container nav-wrapper">
-            <div class="logo gradient-text" data-scramble="[Your Brand]">[Your Brand]</div>
-            <div class="nav-links">
-                <a href="#features" class="hover-link">Features</a>
-                <a href="#pricing" class="hover-link">Pricing</a>
-                <a href="#faq" class="hover-link">FAQ</a>
-                <a href="index.html" class="btn btn-outline hover-link">🇺🇦 Українська</a>
-                <a href="#" class="btn btn-outline hover-link">Sign In</a>
+            <a href="#" class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">TalentPulse<span class="logo-ai">AI</span></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#features">Features</a>
+                <a href="#showcase">Demo</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+                <a href="index.html" class="lang-switch">🇺🇦 UA</a>
+                <a href="https://t.me/talentpulse_ai" class="btn btn-primary btn-nav" target="_blank">Launch Bot</a>
             </div>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </nav>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero glass-panel">
+        <!-- ═══════════════════════════════ SECTION 1: HERO ═══════════════════════════════ -->
+        <section class="hero" id="hero">
             <div class="container hero-grid">
                 <div class="hero-content">
-                    <div class="badge-pill reveal">VERSION 2.0 · ACTIVE</div>
-                    <h1 class="reveal-text">Build elite teams. Your autonomous <span class="gradient-text gradient-animated">AI Recruiter</span></h1>
-                    <p class="reveal-fade">Take recruiting to the next level. Automate deep search, expert evaluation, and engagement of the best talent on Telegram.</p>
-                    <div class="cta-buttons reveal-fade delay-2">
-                        <a href="#cta" class="btn btn-primary hover-link hover-target">Launch Bot</a>
-                        <a href="#features" class="btn btn-outline hover-link align-center">Learn More</a>
+                    <div class="badge-pill scroll-reveal">
+                        <span class="badge-dot"></span>
+                        LIVE NOW • VERSION 3.0
+                    </div>
+                    <h1 class="scroll-reveal delay-1">
+                        Find the <span class="gradient-text gradient-animated">Perfect Candidates</span> in Minutes, Not Weeks
+                    </h1>
+                    <p class="hero-subtitle scroll-reveal delay-2">
+                        Our autonomous AI recruiter analyzes thousands of Telegram profiles, evaluates skills, and sends personalized invites — while you focus on strategy.
+                    </p>
+                    <div class="cta-buttons scroll-reveal delay-3">
+                        <a href="https://t.me/talentpulse_ai" class="btn btn-primary btn-glow" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            Try for Free
+                        </a>
+                        <a href="#how-it-works" class="btn btn-outline">
+                            Learn More →
+                        </a>
+                    </div>
+                    <div class="hero-trust scroll-reveal delay-4">
+                        <div class="trust-avatars">
+                            <div class="avatar" style="background:linear-gradient(135deg,#00e5ff,#9d00ff)">K</div>
+                            <div class="avatar" style="background:linear-gradient(135deg,#ff0055,#ff6600)">A</div>
+                            <div class="avatar" style="background:linear-gradient(135deg,#00ff88,#00e5ff)">M</div>
+                            <div class="avatar" style="background:linear-gradient(135deg,#9d00ff,#ff0055)">D</div>
+                        </div>
+                        <span class="trust-text">Already trusted by <strong>500+</strong> companies</span>
                     </div>
                 </div>
-                
+
                 <!-- AI Terminal -->
-                <div class="bento-box hero-terminal reveal-slide">
+                <div class="hero-terminal scroll-reveal delay-2">
                     <div class="terminal-header">
                         <div class="window-controls">
-                            <span class="dot yellow"></span><span class="dot green"></span>
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
                         </div>
-                        <span class="term-title">🟢 Live: Bot in Action</span>
+                        <span class="term-title">⚡ TalentPulse AI — Live Feed</span>
+                        <span class="term-status">● ONLINE</span>
                     </div>
                     <div class="terminal-body" id="scrolling-terminal"></div>
                 </div>
             </div>
+            <!-- Floating orbs -->
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
         </section>
 
-        <!-- Bento Box Features Section -->
-        <section id="features" class="section-padding">
+        <!-- ═══════════════════════════════ SECTION 2: STATS ═══════════════════════════════ -->
+        <section class="stats-section" id="stats">
             <div class="container">
-                <h2 class="section-title reveal-text">Synchronizing the <span class="gradient-text">Future</span></h2>
+                <div class="stats-grid">
+                    <div class="stat-card scroll-reveal">
+                        <div class="stat-number" data-target="10000">0</div>
+                        <div class="stat-suffix">+</div>
+                        <div class="stat-label">Candidates Found</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width:95%"></div></div>
+                    </div>
+                    <div class="stat-card scroll-reveal delay-1">
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-suffix">+</div>
+                        <div class="stat-label">Client Companies</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width:80%"></div></div>
+                    </div>
+                    <div class="stat-card scroll-reveal delay-2">
+                        <div class="stat-number" data-target="95">0</div>
+                        <div class="stat-suffix">%</div>
+                        <div class="stat-label">Matching Accuracy</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width:95%"></div></div>
+                    </div>
+                    <div class="stat-card scroll-reveal delay-3">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-suffix">/7</div>
+                        <div class="stat-label">Non-stop Operation</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width:100%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 3: HOW IT WORKS ══════════════════════════ -->
+        <section class="section-padding" id="how-it-works">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">The Process</span>
+                    <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+                    <p class="section-desc">Three simple steps from launch to the perfect hire</p>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-card scroll-reveal">
+                        <div class="step-number">01</div>
+                        <div class="step-icon-wrapper">
+                            <svg class="step-icon" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="28" stroke="url(#grad1)" stroke-width="2"/>
+                                <path d="M20 32l8 8 16-16" stroke="url(#grad1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs><linearGradient id="grad1" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="#9d00ff"/></linearGradient></defs>
+                            </svg>
+                        </div>
+                        <h3>Set Your Criteria</h3>
+                        <p>Define the position, skills, experience, and region — the bot adapts to your unique requirements in seconds.</p>
+                    </div>
+                    <div class="step-connector scroll-reveal delay-1">
+                        <svg width="100" height="2"><line x1="0" y1="1" x2="100" y2="1" stroke="url(#connGrad)" stroke-width="2" stroke-dasharray="6 4"/><defs><linearGradient id="connGrad"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="#9d00ff"/></linearGradient></defs></svg>
+                    </div>
+                    <div class="step-card scroll-reveal delay-1">
+                        <div class="step-number">02</div>
+                        <div class="step-icon-wrapper">
+                            <svg class="step-icon" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="25" r="10" stroke="url(#grad2)" stroke-width="2"/>
+                                <path d="M18 50c0-8 6-14 14-14s14 6 14 14" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="48" cy="20" r="6" stroke="url(#grad2)" stroke-width="2"/>
+                                <path d="M46 38c4-2 8-2 12 0" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round"/>
+                                <defs><linearGradient id="grad2" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="#9d00ff"/></linearGradient></defs>
+                            </svg>
+                        </div>
+                        <h3>AI Searches & Analyzes</h3>
+                        <p>The bot scans thousands of Telegram chats, analyzes profiles, evaluates relevance, and creates a candidate leaderboard.</p>
+                    </div>
+                    <div class="step-connector scroll-reveal delay-2">
+                        <svg width="100" height="2"><line x1="0" y1="1" x2="100" y2="1" stroke="url(#connGrad2)" stroke-width="2" stroke-dasharray="6 4"/><defs><linearGradient id="connGrad2"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="#9d00ff"/></linearGradient></defs></svg>
+                    </div>
+                    <div class="step-card scroll-reveal delay-2">
+                        <div class="step-number">03</div>
+                        <div class="step-icon-wrapper">
+                            <svg class="step-icon" viewBox="0 0 64 64" fill="none">
+                                <rect x="10" y="14" width="44" height="36" rx="4" stroke="url(#grad3)" stroke-width="2"/>
+                                <path d="M10 24h44M22 32h20M22 40h14" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="52" cy="44" r="8" fill="#02000a" stroke="#27c93f" stroke-width="2"/>
+                                <path d="M49 44l2 2 4-4" stroke="#27c93f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs><linearGradient id="grad3" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="#9d00ff"/></linearGradient></defs>
+                            </svg>
+                        </div>
+                        <h3>Get Results</h3>
+                        <p>Receive a curated list with scores, contacts, and personalized outreach messages for every candidate.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 4: FEATURES ═══════════════════════════════ -->
+        <section class="section-padding" id="features">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">Capabilities</span>
+                    <h2 class="section-title">Future <span class="gradient-text">Technologies</span></h2>
+                    <p class="section-desc">A full suite of tools to transform your recruitment process</p>
+                </div>
                 <div class="bento-grid">
-                    <!-- Bento Box 1: Large -->
-                    <div class="bento-box bento-large glass-card magnetic">
-                        <div class="bento-icon neural-icon">🧠</div>
-                        <h3 class="bento-title">Deep Talent Search</h3>
-                        <p>Expand your digital horizons. The system continuously analyzes thousands of private communities and chats, instantly populating your database with highly relevant specialists.</p>
+                    <!-- Big card -->
+                    <div class="bento-box bento-large glass-card magnetic scroll-reveal">
+                        <div class="bento-icon">🧠</div>
+                        <h3 class="bento-title">Deep Talent Sourcing</h3>
+                        <p>Our system continuously analyzes thousands of closed communities and chats on Telegram, instantly populating your database with perfectly relevant specialists. It uses NLP and semantic analysis to understand context.</p>
+                        <div class="bento-tags">
+                            <span class="tag">NLP</span>
+                            <span class="tag">Semantic Search</span>
+                            <span class="tag">Deep Learning</span>
+                        </div>
                         <div class="bento-glow"></div>
                     </div>
                     
-                    <!-- Bento Box 2: Medium -->
-                    <div class="bento-box glass-card magnetic delay-1">
-                        <div class="bento-icon flash-icon">⚡</div>
+                    <!-- Medium cards -->
+                    <div class="bento-box glass-card magnetic scroll-reveal delay-1">
+                        <div class="bento-icon">⚡</div>
                         <h3 class="bento-title">Instant Evaluation</h3>
-                        <p>Data extraction and semantic profile matching in milliseconds.</p>
+                        <p>Data extraction and semantic profile matching in milliseconds. Llama 3 independently analyzes every candidate.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+                    <div class="bento-box glass-card magnetic scroll-reveal delay-2">
+                        <div class="bento-icon">🔒</div>
+                        <h3 class="bento-title">Seamless Sync</h3>
+                        <p>Export leads directly to your ATS or CRM without data loss. Support for CSV, JSON, and API.</p>
                         <div class="bento-glow"></div>
                     </div>
 
-                    <!-- Bento Box 3: Medium -->
-                    <div class="bento-box glass-card magnetic delay-2">
-                        <div class="bento-icon auth-icon">🔒</div>
-                        <h3 class="bento-title">Seamless Sync</h3>
-                        <p>Export leads directly to your ATS with zero data loss.</p>
-                        <div class="bento-glow"></div>
-                    </div>
-                    
-                    <!-- Bento Box 4: Wide -->
-                    <div class="bento-box bento-wide glass-card magnetic delay-3">
-                        <div class="bento-icon speech-icon">💬</div>
+                    <!-- Wide card -->
+                    <div class="bento-box bento-wide glass-card magnetic scroll-reveal delay-1">
+                        <div class="bento-icon">💬</div>
                         <div class="bento-wide-content">
                             <h3 class="bento-title">Personalized Outreach</h3>
-                            <p>Unique AI-generated messages crafted individually for each candidate on Telegram boost response rates by 4x.</p>
+                            <p>Unique generative messages crafted by AI for each individual candidate on Telegram boost response rates by <strong>4x</strong> compared to standard templates.</p>
                         </div>
+                        <div class="bento-glow"></div>
+                    </div>
+
+                    <!-- Additional cards -->
+                    <div class="bento-box glass-card magnetic scroll-reveal delay-2">
+                        <div class="bento-icon">📊</div>
+                        <h3 class="bento-title">Real-time Analytics</h3>
+                        <p>Dashboard with key metrics: hiring funnel, response conversion, and candidate source ratings.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+                    <div class="bento-box glass-card magnetic scroll-reveal delay-3">
+                        <div class="bento-icon">🌍</div>
+                        <h3 class="bento-title">Multi-language</h3>
+                        <p>Communicate in English, Ukrainian, and other languages. AI adapts the style to the local market tone.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+                    <div class="bento-box glass-card magnetic scroll-reveal delay-3">
+                        <div class="bento-icon">🛡️</div>
+                        <h3 class="bento-title">Privacy First</h3>
+                        <p>Your data is end-to-end encrypted. No leaks. Fully compliant with GDPR and local regulations.</p>
                         <div class="bento-glow"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="section-padding">
+        <!-- ═══════════════════════════════ SECTION 5: SHOWCASE ═══════════════════════════════ -->
+        <section class="section-padding showcase-section" id="showcase">
             <div class="container">
-                <h2 class="section-title reveal-text">Transform Your <span class="gradient-text">Teams</span></h2>
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">Showcase</span>
+                    <h2 class="section-title">See It in <span class="gradient-text">Action</span></h2>
+                    <p class="section-desc">This is how the bot's workflow looks in real-time</p>
+                </div>
+                <div class="showcase-wrapper scroll-reveal">
+                    <div class="showcase-browser">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="browser-url">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                                t.me/talentpulse_ai
+                            </div>
+                        </div>
+                        <div class="showcase-content">
+                            <!-- Telegram-style chat mockup -->
+                            <div class="chat-mockup">
+                                <div class="chat-msg bot">
+                                    <div class="chat-avatar">🤖</div>
+                                    <div class="chat-bubble">
+                                        <strong>TalentPulse AI</strong>
+                                        <p>Hello! I found 23 candidates for the Senior React Developer position. Here are the TOP 3:</p>
+                                    </div>
+                                </div>
+                                <div class="chat-msg bot">
+                                    <div class="chat-avatar">🤖</div>
+                                    <div class="chat-bubble candidate-card">
+                                        <div class="cand-header">
+                                            <div class="cand-avatar" style="background:linear-gradient(135deg,#00e5ff,#9d00ff)">A</div>
+                                            <div>
+                                                <strong>Alex K.</strong>
+                                                <span class="cand-score">⭐ 96/100</span>
+                                            </div>
+                                        </div>
+                                        <div class="cand-skills">
+                                            <span class="skill-tag">React</span>
+                                            <span class="skill-tag">TypeScript</span>
+                                            <span class="skill-tag">Next.js</span>
+                                            <span class="skill-tag">Node.js</span>
+                                        </div>
+                                        <p class="cand-exp">5+ years exp • Worked at Grammarly, Epam</p>
+                                    </div>
+                                </div>
+                                <div class="chat-msg user">
+                                    <div class="chat-bubble">
+                                        <p>Great! Send him a personalized invitation 🚀</p>
+                                    </div>
+                                </div>
+                                <div class="chat-msg bot">
+                                    <div class="chat-avatar">🤖</div>
+                                    <div class="chat-bubble">
+                                        <p>✅ Done! A personalized message has been sent to Alex. Response usually arrives within 2-4 hours.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating badges -->
+                    <div class="showcase-badge badge-1 scroll-reveal delay-2">
+                        <span>🎯</span> 96% Accuracy
+                    </div>
+                    <div class="showcase-badge badge-2 scroll-reveal delay-3">
+                        <span>⚡</span> 3s Response
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 6: TESTIMONIALS ═══════════════════════════ -->
+        <section class="section-padding" id="testimonials">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">Testimonials</span>
+                    <h2 class="section-title">What Clients <span class="gradient-text">Say</span></h2>
+                    <p class="section-desc">Real results from real companies</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card glass-card scroll-reveal">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"In the first 2 weeks, the bot found us 5 senior developers that we couldn't find manually in a month. The time savings are massive!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background:linear-gradient(135deg,#00e5ff,#00ff88)">K</div>
+                            <div>
+                                <strong>Kate M.</strong>
+                                <span>HR Director, TechCorp</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card glass-card scroll-reveal delay-1">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"The level of message personalization is impressive. Candidates don't even realize they're talking to a bot. Our response rate tripled."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background:linear-gradient(135deg,#9d00ff,#ff0055)">D</div>
+                            <div>
+                                <strong>David L.</strong>
+                                <span>CTO, StartupHub</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card glass-card scroll-reveal delay-2">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"We replaced an entire sourcing department with one bot. ROI for the first month — 340%. This isn't just a tool, it's a revolution."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background:linear-gradient(135deg,#ff6600,#ffae00)">A</div>
+                            <div>
+                                <strong>Andrew S.</strong>
+                                <span>CEO, RecruitPro</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 7: PRICING ═══════════════════════════════ -->
+        <section class="section-padding" id="pricing">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">Pricing</span>
+                    <h2 class="section-title">Choose Your <span class="gradient-text">Plan</span></h2>
+                    <p class="section-desc">Flexible plans for every business scale</p>
+                </div>
                 <div class="pricing-grid">
-                    <div class="bento-box pricing-card glass-card magnetic">
-                        <h3>Starter</h3>
-                        <div class="price gradient-text">$49<span class="period">/mo</span></div>
-                        <p class="plan-desc">The foundation to get started.</p>
+                    <!-- Starter -->
+                    <div class="pricing-card glass-card magnetic scroll-reveal">
+                        <div class="plan-name">Starter</div>
+                        <div class="price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount gradient-text">49</span>
+                            <span class="price-period">/mo</span>
+                        </div>
+                        <p class="plan-desc">Perfect for a first introduction to AI recruitment</p>
                         <ul class="plan-features">
                             <li>5 search sources</li>
-                            <li>100 targeted leads</li>
+                            <li>100 target leads/mo</li>
+                            <li>Basic analytics</li>
                             <li>CSV export</li>
+                            <li>Email support</li>
                         </ul>
-                        <a href="#" class="btn btn-outline full-width hover-link">Choose Starter</a>
+                        <a href="#" class="btn btn-outline full-width">Choose Plan</a>
                         <div class="bento-glow"></div>
                     </div>
 
-                    <div class="bento-box pricing-card glass-card pro-card magnetic">
-                        <div class="popular-badge">Recommended</div>
-                        <h3 style="margin-top: 1rem;">Professional</h3>
-                        <div class="price gradient-text" style="font-size: 4.5rem;">$149<span class="period">/mo</span></div>
-                        <p class="plan-desc">Full process automation.</p>
+                    <!-- Pro -->
+                    <div class="pricing-card glass-card pro-card magnetic scroll-reveal delay-1">
+                        <div class="popular-badge">🔥 Most Popular</div>
+                        <div class="plan-name">Professional</div>
+                        <div class="price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount gradient-text">149</span>
+                            <span class="price-period">/mo</span>
+                        </div>
+                        <p class="plan-desc">Full automation for growing teams</p>
                         <ul class="plan-features">
                             <li>Unlimited sources</li>
                             <li>1,000 leads/month</li>
                             <li>LLM Analytics (Llama 3)</li>
-                            <li>CRM Integration</li>
+                            <li>CRM/ATS Integration</li>
+                            <li>Personalized messages</li>
+                            <li>24/7 priority support</li>
                         </ul>
-                        <a href="#" class="btn btn-primary full-width hover-link hover-target">Choose Professional</a>
+                        <a href="#" class="btn btn-primary full-width btn-glow">Choose Pro</a>
                         <div class="bento-glow"></div>
                     </div>
 
-                    <div class="bento-box pricing-card glass-card magnetic">
-                        <h3>Enterprise</h3>
-                        <div class="price gradient-text">Custom</div>
-                        <p class="plan-desc">For elite enterprises.</p>
+                    <!-- Enterprise -->
+                    <div class="pricing-card glass-card magnetic scroll-reveal delay-2">
+                        <div class="plan-name">Enterprise</div>
+                        <div class="price">
+                            <span class="price-amount gradient-text" style="font-size:3rem">Custom</span>
+                        </div>
+                        <p class="plan-desc">For enterprises with special requirements</p>
                         <ul class="plan-features">
-                            <li>Private server</li>
+                            <li>Private dedicated server</li>
                             <li>Unlimited leads</li>
                             <li>Custom AI training</li>
+                            <li>White-label solution</li>
+                            <li>Dedicated account manager</li>
+                            <li>99.9% SLA</li>
                         </ul>
-                        <a href="#" class="btn btn-outline full-width hover-link">Contact Us</a>
+                        <a href="#" class="btn btn-outline full-width">Contact Us</a>
                         <div class="bento-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 8: FAQ ═══════════════════════════════ -->
+        <section class="section-padding" id="faq">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <span class="section-tag">FAQ</span>
+                    <h2 class="section-title">Common <span class="gradient-text">Questions</span></h2>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item scroll-reveal">
+                        <button class="faq-question">
+                            <span>How fast will the bot start working after setup?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>The bot starts working immediately after you set your search criteria — typically takes 5-10 minutes. You'll receive your first results within the first hour.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item scroll-reveal delay-1">
+                        <button class="faq-question">
+                            <span>Is it safe to use the bot in terms of Telegram rules?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, the bot uses the official Telegram Bot API and follows all platform rules. We simulate human behavior with pauses and randomized actions to avoid any limitations.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item scroll-reveal delay-1">
+                        <button class="faq-question">
+                            <span>What languages does the bot support?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>The bot supports English, Ukrainian, Polish, and other languages. AI automatically detects the candidate's language and adapts communication accordingly.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item scroll-reveal delay-2">
+                        <button class="faq-question">
+                            <span>Can we integrate it with our CRM?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! We support integration with popular CRMs: HubSpot, Salesforce, Pipedrive, and others. A custom API is also available for tailored integrations.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item scroll-reveal delay-2">
+                        <button class="faq-question">
+                            <span>What happens when a candidate replies?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>The bot instantly notifies you on Telegram and hands off the conversation to a live recruiter. Optionally, the bot can continue the dialogue for initial screening.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item scroll-reveal delay-3">
+                        <button class="faq-question">
+                            <span>Is there a free trial period?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, we offer a 7-day free trial with full access to the Professional plan features. No commitment — cancel anytime.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════ SECTION 9: CTA ═══════════════════════════════ -->
+        <section class="cta-section" id="cta">
+            <div class="container">
+                <div class="cta-card glass-card scroll-reveal">
+                    <h2>Ready to <span class="gradient-text">Transform</span> Your Hiring?</h2>
+                    <p>Join 500+ companies already using the power of AI to hire the best talent.</p>
+                    <div class="cta-buttons">
+                        <a href="https://t.me/talentpulse_ai" class="btn btn-primary btn-glow btn-large" target="_blank">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            Start for Free
+                        </a>
+                        <a href="mailto:hello@talentpulse.ai" class="btn btn-outline">
+                            Contact Us
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
     <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-brand">
-                <div class="logo gradient-text" style="font-size: 2rem;">[Your Brand]</div>
-                <p>The future of hiring. Systematize, automate, dominate.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">⚡</span>
+                        <span class="logo-text">TalentPulse<span class="logo-ai">AI</span></span>
+                    </a>
+                    <p>Next-generation autonomous AI recruiter.<br>100% hiring automation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="#features">Capabilities</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#showcase">Demo</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <a href="https://t.me/talentpulse_ai" target="_blank">📱 Telegram</a>
+                    <a href="mailto:hello@talentpulse.ai">📧 Email</a>
+                    <a href="#">🔗 LinkedIn</a>
+                    <a href="#">🐦 Twitter / X</a>
+                </div>
             </div>
-            <div class="footer-copy">
-                <p>&copy; 2026 All rights reserved.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TalentPulse AI. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>

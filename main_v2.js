@@ -1,52 +1,77 @@
-// 1. Lenis Smooth Scroll Initialization
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false,
-});
+/* ═══════════════════════════════════════════════════════════════
+   TalentPulse AI — Main Script v3.0
+   ═══════════════════════════════════════════════════════════════ */
 
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// 2. Ambient Cursor Glow Physics
+// ─── 1. Ambient Cursor Glow ───
 const cursorGlow = document.querySelector('.cursor-glow');
-let glowX = window.innerWidth / 2;
-let glowY = window.innerHeight / 2; 
-let targetX = glowX;
-let targetY = glowY;
+let glowX = window.innerWidth / 2, glowY = window.innerHeight / 2;
+let targetX = glowX, targetY = glowY;
 
 document.addEventListener('mousemove', (e) => {
     targetX = e.clientX;
     targetY = e.clientY;
-    
-    if (cursorGlow && cursorGlow.style.opacity === "0" || !cursorGlow.style.opacity) {
+    if (cursorGlow && (!cursorGlow.style.opacity || cursorGlow.style.opacity === "0")) {
         cursorGlow.style.opacity = "1";
     }
 });
 
 function animateGlow() {
-    glowX += (targetX - glowX) * 0.08;
-    glowY += (targetY - glowY) * 0.08;
-    
+    glowX += (targetX - glowX) * 0.07;
+    glowY += (targetY - glowY) * 0.07;
     if (cursorGlow) {
         cursorGlow.style.left = `${glowX}px`;
         cursorGlow.style.top = `${glowY}px`;
     }
-    
     requestAnimationFrame(animateGlow);
 }
 animateGlow();
 
-// 3. Magnetic Bento & Card Hover
+// ─── 2. Scroll Reveal Observer ───
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
+
+// ─── 3. Sticky Header ───
+const header = document.getElementById('header');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > 60) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+    lastScroll = currentScroll;
+});
+
+// ─── 4. Mobile Hamburger Menu ───
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+}
+
+// ─── 5. Magnetic Bento Hover ───
 document.querySelectorAll('.magnetic').forEach(card => {
     card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
@@ -57,195 +82,112 @@ document.querySelectorAll('.magnetic').forEach(card => {
     });
 });
 
-// 4. Cyber-Scramble Text Effect
-class ScrambleText {
-    constructor(el) {
-        this.el = el;
-        this.chars = '!<>-_\\/[]{}—=+*^?#_';
-        this.update = this.update.bind(this);
-    }
-    setText(newText) {
-        const oldText = this.el.innerText;
-        const length = Math.max(oldText.length, newText.length);
-        const promise = new Promise((resolve) => this.resolve = resolve);
-        this.queue = [];
-        for (let i = 0; i < length; i++) {
-            const from = oldText[i] || '';
-            const to = newText[i] || '';
-            const start = Math.floor(Math.random() * 40);
-            const end = start + Math.floor(Math.random() * 40);
-            this.queue.push({ from, to, start, end });
-        }
-        cancelAnimationFrame(this.frameRequest);
-        this.frame = 0;
-        this.update();
-        return promise;
-    }
-    update() {
-        let output = '';
-        let complete = 0;
-        for (let i = 0, n = this.queue.length; i < n; i++) {
-            let { from, to, start, end, char } = this.queue[i];
-            if (this.frame >= end) {
-                complete++;
-                output += to;
-            } else if (this.frame >= start) {
-                if (!char || Math.random() < 0.28) {
-                    char = this.randomChar();
-                    this.queue[i].char = char;
-                }
-                output += `<span class="scramble-char">${char}</span>`;
-            } else {
-                output += from;
-            }
-        }
-        this.el.innerHTML = output;
-        if (complete === this.queue.length) {
-            this.resolve();
-        } else {
-            this.frameRequest = requestAnimationFrame(this.update);
-            this.frame++;
-        }
-    }
-    randomChar() {
-        return this.chars[Math.floor(Math.random() * this.chars.length)];
-    }
-}
-
-// Init Scramble on specific elements
-const phrases = [
-    'Створюємо майбутнє',
-    'Автоматизація 2.0',
-    'Ваш Бренд'
-];
-const fx = new ScrambleText(document.querySelector('.logo'));
-let counter = 0;
-setInterval(() => {
-    fx.setText(phrases[counter]);
-    counter = (counter + 1) % phrases.length;
-}, 4000);
-
-// 5. Advanced Neural Network Canvas (Three.js)
-let scene, camera, renderer, particles, linesMesh;
-const maxDistance = 4;
-
-function initNetwork() {
-    const canvas = document.getElementById('bg-canvas');
-    if (!canvas) return;
-
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.z = 15;
-
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    const particlesCount = 150;
-    const geometry = new THREE.BufferGeometry();
-    const posArray = new Float32Array(particlesCount * 3);
-    const velocities = [];
-
-    for (let i = 0; i < particlesCount * 3; i+=3) {
-        posArray[i] = (Math.random() - 0.5) * 40;
-        posArray[i+1] = (Math.random() - 0.5) * 40;
-        posArray[i+2] = (Math.random() - 0.5) * 20;
-
-        velocities.push({
-            x: (Math.random() - 0.5) * 0.05,
-            y: (Math.random() - 0.5) * 0.05,
-            z: (Math.random() - 0.5) * 0.05
-        });
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const material = new THREE.PointsMaterial({ size: 0.1, color: 0x00e5ff });
-    particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // Initial Line setup (empty)
-    const linesMaterial = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.15 });
-    linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), linesMaterial);
-    scene.add(linesMesh);
-
-    // Save velocities to userData
-    particles.userData.velocities = velocities;
-
-    networkAnimate();
-}
-
-function networkAnimate() {
-    requestAnimationFrame(networkAnimate);
-
-    const positions = particles.geometry.attributes.position.array;
-    const vels = particles.userData.velocities;
-    const linePositions = [];
-
-    // Move particles
-    for(let i=0; i<positions.length; i+=3) {
-        const idx = i/3;
-        positions[i] += vels[idx].x;
-        positions[i+1] += vels[idx].y;
-        positions[i+2] += vels[idx].z;
-
-        // Bounce bounds
-        if(Math.abs(positions[i]) > 20) vels[idx].x *= -1;
-        if(Math.abs(positions[i+1]) > 20) vels[idx].y *= -1;
-        if(Math.abs(positions[i+2]) > 10) vels[idx].z *= -1;
-    }
-    particles.geometry.attributes.position.needsUpdate = true;
-
-    // Connect particles
-    let vertexCount = 0;
-    for ( let i = 0; i < positions.length; i += 3 ) {
-        for ( let j = i + 3; j < positions.length; j += 3 ) {
-            const dx = positions[ i ] - positions[ j ];
-            const dy = positions[ i + 1 ] - positions[ j + 1 ];
-            const dz = positions[ i + 2 ] - positions[ j + 2 ];
-            const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
-
-            if ( dist < maxDistance ) {
-                linePositions.push(
-                    positions[ i ], positions[ i + 1 ], positions[ i + 2 ],
-                    positions[ j ], positions[ j + 1 ], positions[ j + 2 ]
-                );
-                vertexCount += 2;
-            }
-        }
-    }
-
-    linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+// ─── 6. Counter Animation ───
+function animateCounters() {
+    const statCards = document.querySelectorAll('.stat-number[data-target]');
     
-    // Parallax on scroll
-    const scrollY = window.scrollY;
-    camera.position.y = -(scrollY * 0.005);
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.dataset.animated = 'true';
+                const target = parseInt(entry.target.dataset.target);
+                const duration = 2000;
+                const start = performance.now();
+                
+                // Animate the stat bar too
+                const card = entry.target.closest('.stat-card');
+                if (card) card.classList.add('animated');
+                const barFill = card?.querySelector('.stat-bar-fill');
+                if (barFill) {
+                    barFill.style.width = barFill.style.width; // trigger reflow
+                }
 
-    renderer.render(scene, camera);
+                function updateCount(currentTime) {
+                    const elapsed = currentTime - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out cubic
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(easeProgress * target);
+                    entry.target.textContent = current.toLocaleString();
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    }
+                }
+                requestAnimationFrame(updateCount);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statCards.forEach(el => counterObserver.observe(el));
 }
+animateCounters();
 
-window.addEventListener('resize', () => {
-    if(camera && renderer) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    }
+// ─── 7. FAQ Accordion ───
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const item = button.parentNode;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+        
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(faq => {
+            faq.classList.remove('active');
+            faq.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Open current if it was not active
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+    });
 });
 
-// 6. Terminal Typewriter (From Previous)
+// ─── 8. Smooth Scrolling ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ─── 9. Terminal Typewriter ───
 function initTerminalSimulation() {
     const termBody = document.getElementById('scrolling-terminal');
     if (!termBody) return;
 
     const logs = [
-        "➡️ Шукаю найкращих спеціалістів у Telegram...",
-        "➡️ Читаю тисячі повідомлень та резюме...",
-        { text: "✅ Знайдено 154 потенційних кандидати", class: "success" },
-        "➡️ Аналізую досвід роботи кожного...",
-        { text: "🔥 ІДЕАЛЬНИЙ КАНДИДАТ: @a***_***_dev", class: "action" },
-        "➡️ Перевіряю його навички та портфоліо...",
-        { text: "⭐ Оцінка: 94/100. Кандидат ідеально підходить!", class: "success" },
-        "➡️ Складаю індивідуальне запрошення на роботу...",
-        { text: "✉️ Повідомлення відправлено! Чекаю на відповідь...", class: "action" }
+        "⚡ Ініціалізація TalentPulse AI v3.0...",
+        "🔗 Підключення до Telegram API...",
+        { text: "✅ З'єднання встановлено. Статус: ONLINE", class: "success" },
+        "🔍 Сканування групи: 'Frontend Developers UA'...",
+        "📊 Аналіз 4,500 повідомлень...",
+        { text: "🎯 ІДЕАЛЬНИЙ ЗБІГ: @alex_react_dev", class: "action" },
+        "🧠 Перевірка GitHub та портфоліо...",
+        "📈 React: 95% | TypeScript: 92% | Three.js: 88%",
+        { text: "⭐ Загальна оцінка: 96/100 — РЕКОМЕНДОВАНО", class: "success" },
+        "✍️ Генерація персоналізованого повідомлення...",
+        { text: "✉️ Повідомлення надіслано! Чекаю відповідь...", class: "action" },
+        "⏳ Затримка 120с для імітації людської поведінки...",
+        "🔍 Сканування нової групи: 'Python Engineers'...",
+        { text: "✅ Знайдено 37 потенційних кандидатів", class: "success" },
+        { text: "🎯 ТОП-кандидат: @maria_python_ml", class: "action" },
+        "📈 Python: 98% | ML: 94% | FastAPI: 91%",
+        { text: "⭐ Оцінка: 97/100 — ВИКЛЮЧНИЙ ЗБІГ", class: "success" },
     ];
 
     let currentLog = 0;
@@ -266,21 +208,131 @@ function initTerminalSimulation() {
             if (i < text.length) {
                 lineElem.innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typeChar, Math.random() * 20 + 20); // Faster
+                setTimeout(typeChar, Math.random() * 25 + 15);
             } else {
                 currentLog++;
-                if (termBody.children.length > 7) {
+                if (termBody.children.length > 8) {
                     termBody.removeChild(termBody.firstChild);
                 }
-                setTimeout(typeNextLine, Math.random() * 2000 + 500);
+                setTimeout(typeNextLine, Math.random() * 1800 + 600);
             }
         }
         typeChar();
     }
-    setTimeout(typeNextLine, 1000);
+    setTimeout(typeNextLine, 800);
 }
 
-// Initialization
+// ─── 10. Three.js Neural Network Background ───
+let scene, camera, renderer, particles, linesMesh;
+const maxDistance = 4;
+
+function initNetwork() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 18;
+
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Particles
+    const particlesCount = 120;
+    const geometry = new THREE.BufferGeometry();
+    const posArray = new Float32Array(particlesCount * 3);
+    const velocities = [];
+
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+        posArray[i] = (Math.random() - 0.5) * 40;
+        posArray[i+1] = (Math.random() - 0.5) * 30;
+        posArray[i+2] = (Math.random() - 0.5) * 15;
+        velocities.push({
+            x: (Math.random() - 0.5) * 0.04,
+            y: (Math.random() - 0.5) * 0.04,
+            z: (Math.random() - 0.5) * 0.03
+        });
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const material = new THREE.PointsMaterial({ 
+        size: 0.08, 
+        color: 0x00e5ff,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending 
+    });
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // Lines
+    const linesMaterial = new THREE.LineBasicMaterial({ 
+        color: 0x00e5ff, 
+        transparent: true, 
+        opacity: 0.1 
+    });
+    linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), linesMaterial);
+    scene.add(linesMesh);
+
+    particles.userData.velocities = velocities;
+    networkAnimate();
+}
+
+function networkAnimate() {
+    requestAnimationFrame(networkAnimate);
+
+    const positions = particles.geometry.attributes.position.array;
+    const vels = particles.userData.velocities;
+    const linePositions = [];
+
+    for (let i = 0; i < positions.length; i += 3) {
+        const idx = i / 3;
+        positions[i] += vels[idx].x;
+        positions[i+1] += vels[idx].y;
+        positions[i+2] += vels[idx].z;
+
+        if (Math.abs(positions[i]) > 20) vels[idx].x *= -1;
+        if (Math.abs(positions[i+1]) > 15) vels[idx].y *= -1;
+        if (Math.abs(positions[i+2]) > 8) vels[idx].z *= -1;
+    }
+    particles.geometry.attributes.position.needsUpdate = true;
+
+    // Connect nearby particles
+    for (let i = 0; i < positions.length; i += 3) {
+        for (let j = i + 3; j < positions.length; j += 3) {
+            const dx = positions[i] - positions[j];
+            const dy = positions[i+1] - positions[j+1];
+            const dz = positions[i+2] - positions[j+2];
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (dist < maxDistance) {
+                linePositions.push(
+                    positions[i], positions[i+1], positions[i+2],
+                    positions[j], positions[j+1], positions[j+2]
+                );
+            }
+        }
+    }
+
+    linesMesh.geometry.dispose();
+    linesMesh.geometry = new THREE.BufferGeometry();
+    linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+
+    // Scroll parallax
+    camera.position.y = -(window.scrollY * 0.003);
+    renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', () => {
+    if (camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+});
+
+// ─── Init ───
 document.addEventListener('DOMContentLoaded', () => {
     initNetwork();
     initTerminalSimulation();
