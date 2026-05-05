@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous AI Recruiter | The Future of Hiring</title>
+    <meta name="description" content="An autonomous AI recruiter that finds, analyzes, and contacts the best candidates on Telegram 24/7.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Modern Premium Styles -->
+    <link rel="stylesheet" href="../styles_v2.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+</head>
+<body>
+    <!-- Ambient 3D Cursor Glow -->
+    <div class="cursor-glow"></div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <nav class="container nav-wrapper">
+            <div class="logo gradient-text" data-scramble="[Your Brand]">[Your Brand]</div>
+            <div class="nav-links">
+                <a href="#features" class="hover-link">Features</a>
+                <a href="#pricing" class="hover-link">Pricing</a>
+                <a href="#faq" class="hover-link">FAQ</a>
+                <a href="../index.html" class="btn btn-outline hover-link">🇺🇦 Українська</a>
+                <a href="#" class="btn btn-outline hover-link">Sign In</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero glass-panel">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="badge-pill reveal">VERSION 2.0 · ACTIVE</div>
+                    <h1 class="reveal-text">Build elite teams. Your autonomous <span class="gradient-text gradient-animated">AI Recruiter</span></h1>
+                    <p class="reveal-fade">Take recruiting to the next level. Automate deep search, expert evaluation, and engagement of the best talent on Telegram.</p>
+                    <div class="cta-buttons reveal-fade delay-2">
+                        <a href="#cta" class="btn btn-primary hover-link hover-target">Launch Bot</a>
+                        <a href="#features" class="btn btn-outline hover-link align-center">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- AI Terminal -->
+                <div class="bento-box hero-terminal reveal-slide">
+                    <div class="terminal-header">
+                        <div class="window-controls">
+                            <span class="dot yellow"></span><span class="dot green"></span>
+                        </div>
+                        <span class="term-title">🟢 Live: Bot in Action</span>
+                    </div>
+                    <div class="terminal-body" id="scrolling-terminal"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Box Features Section -->
+        <section id="features" class="section-padding">
+            <div class="container">
+                <h2 class="section-title reveal-text">Synchronizing the <span class="gradient-text">Future</span></h2>
+                <div class="bento-grid">
+                    <!-- Bento Box 1: Large -->
+                    <div class="bento-box bento-large glass-card magnetic">
+                        <div class="bento-icon neural-icon">🧠</div>
+                        <h3 class="bento-title">Deep Talent Search</h3>
+                        <p>Expand your digital horizons. The system continuously analyzes thousands of private communities and chats, instantly populating your database with highly relevant specialists.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+                    
+                    <!-- Bento Box 2: Medium -->
+                    <div class="bento-box glass-card magnetic delay-1">
+                        <div class="bento-icon flash-icon">⚡</div>
+                        <h3 class="bento-title">Instant Evaluation</h3>
+                        <p>Data extraction and semantic profile matching in milliseconds.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+
+                    <!-- Bento Box 3: Medium -->
+                    <div class="bento-box glass-card magnetic delay-2">
+                        <div class="bento-icon auth-icon">🔒</div>
+                        <h3 class="bento-title">Seamless Sync</h3>
+                        <p>Export leads directly to your ATS with zero data loss.</p>
+                        <div class="bento-glow"></div>
+                    </div>
+                    
+                    <!-- Bento Box 4: Wide -->
+                    <div class="bento-box bento-wide glass-card magnetic delay-3">
+                        <div class="bento-icon speech-icon">💬</div>
+                        <div class="bento-wide-content">
+                            <h3 class="bento-title">Personalized Outreach</h3>
+                            <p>Unique AI-generated messages crafted individually for each candidate on Telegram boost response rates by 4x.</p>
+                        </div>
+                        <div class="bento-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="section-padding">
+            <div class="container">
+                <h2 class="section-title reveal-text">Transform Your <span class="gradient-text">Teams</span></h2>
+                <div class="pricing-grid">
+                    <div class="bento-box pricing-card glass-card magnetic">
+                        <h3>Starter</h3>
+                        <div class="price gradient-text">$49<span class="period">/mo</span></div>
+                        <p class="plan-desc">The foundation to get started.</p>
+                        <ul class="plan-features">
+                            <li>5 search sources</li>
+                            <li>100 targeted leads</li>
+                            <li>CSV export</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline full-width hover-link">Choose Starter</a>
+                        <div class="bento-glow"></div>
+                    </div>
+
+                    <div class="bento-box pricing-card glass-card pro-card magnetic">
+                        <div class="popular-badge">Recommended</div>
+                        <h3 style="margin-top: 1rem;">Professional</h3>
+                        <div class="price gradient-text" style="font-size: 4.5rem;">$149<span class="period">/mo</span></div>
+                        <p class="plan-desc">Full process automation.</p>
+                        <ul class="plan-features">
+                            <li>Unlimited sources</li>
+                            <li>1,000 leads/month</li>
+                            <li>LLM Analytics (Llama 3)</li>
+                            <li>CRM Integration</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary full-width hover-link hover-target">Choose Professional</a>
+                        <div class="bento-glow"></div>
+                    </div>
+
+                    <div class="bento-box pricing-card glass-card magnetic">
+                        <h3>Enterprise</h3>
+                        <div class="price gradient-text">Custom</div>
+                        <p class="plan-desc">For elite enterprises.</p>
+                        <ul class="plan-features">
+                            <li>Private server</li>
+                            <li>Unlimited leads</li>
+                            <li>Custom AI training</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline full-width hover-link">Contact Us</a>
+                        <div class="bento-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div class="logo gradient-text" style="font-size: 2rem;">[Your Brand]</div>
+                <p>The future of hiring. Systematize, automate, dominate.</p>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2026 All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../main_v2_en.js"></script>
+</body>
+</html>

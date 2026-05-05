@@ -114,9 +114,9 @@ class ScrambleText {
 
 // Init Scramble on specific elements
 const phrases = [
-    'Створюємо майбутнє',
-    'Автоматизація 2.0',
-    'Ваш Бренд'
+    'Building the Future',
+    'Automation 2.0',
+    'Your Brand'
 ];
 const fx = new ScrambleText(document.querySelector('.logo'));
 let counter = 0;
@@ -237,15 +237,15 @@ function initTerminalSimulation() {
     if (!termBody) return;
 
     const logs = [
-        "➡️ Шукаю найкращих спеціалістів у Telegram...",
-        "➡️ Читаю тисячі повідомлень та резюме...",
-        { text: "✅ Знайдено 154 потенційних кандидати", class: "success" },
-        "➡️ Аналізую досвід роботи кожного...",
-        { text: "🔥 ІДЕАЛЬНИЙ КАНДИДАТ: @a***_***_dev", class: "action" },
-        "➡️ Перевіряю його навички та портфоліо...",
-        { text: "⭐ Оцінка: 94/100. Кандидат ідеально підходить!", class: "success" },
-        "➡️ Складаю індивідуальне запрошення на роботу...",
-        { text: "✉️ Повідомлення відправлено! Чекаю на відповідь...", class: "action" }
+        "➡️ Searching for top specialists on Telegram...",
+        "➡️ Reading thousands of messages and resumes...",
+        { text: "✅ Found 154 potential candidates", class: "success" },
+        "➡️ Analyzing each candidate's experience...",
+        { text: "🔥 PERFECT MATCH: @a***_***_dev", class: "action" },
+        "➡️ Reviewing skills and portfolio...",
+        { text: "⭐ Score: 94/100. Candidate is a perfect fit!", class: "success" },
+        "➡️ Crafting a personalized job invitation...",
+        { text: "✉️ Message sent! Waiting for reply...", class: "action" }
     ];
 
     let currentLog = 0;
