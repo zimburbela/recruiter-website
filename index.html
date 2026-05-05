@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous AI Recruiter | Майбутнє найму</title>
+    <meta name="description" content="Автономний ШІ-рекрутер, який знаходить, аналізує та контактує з найкращими кандидатами в Telegram 24/7.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <header>
+        <nav class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0;">
+            <div class="logo gradient-text" style="font-size: 1.5rem; font-weight: 800;">[Ваш Бренд]</div>
+            <div class="nav-links" style="display: flex; gap: 2rem; align-items: center;">
+                <a href="#how-it-works" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Як це працює</a>
+                <a href="#features" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Можливості</a>
+                <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.5rem;">Увійти</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero reveal">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <h1 class="reveal" style="animation-delay: 0.2s;">Ваш автономний <span class="gradient-text">ШІ-рекрутер</span> працює 24/7</h1>
+                <p class="reveal" style="animation-delay: 0.4s;">Поки ви відпочиваєте, він сканує сотні груп у Telegram, аналізує тисячі повідомлень та знаходить ідеальних кандидатів для вашої команди.</p>
+                <div class="reveal" style="display: flex; gap: 1.5rem; animation-delay: 0.6s;">
+                    <a href="#cta" class="btn btn-primary">Запустити бота</a>
+                    <a href="https://t.me/your_bot_link" class="btn btn-outline">Демо в Telegram</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section style="padding: 5rem 0; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div class="glass-card" style="padding: 3rem; text-align: center;">
+                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="1000">0</div>
+                    <p style="color: var(--text-dim);">Повідомлень щогодини</p>
+                </div>
+                <div class="glass-card" style="padding: 3rem; text-align: center;">
+                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="50">0</div>
+                    <p style="color: var(--text-dim);">Гарячих лідів на добу</p>
+                </div>
+                <div class="glass-card" style="padding: 3rem; text-align: center;">
+                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="100">0</div>
+                    <p style="color: var(--text-dim);">Економія часу (%)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" style="padding: 10rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 4rem;">Як працює <span class="gradient-text">Інтелект</span></h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                    <div class="reveal" style="animation-delay: 0.1s;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">01. Сканування</h3>
+                        <p style="color: var(--text-dim);">Бот безперервно моніторить публічні групи та чати за цільовими запитами, знаходячи реальні запити від людей у режимі реального часу.</p>
+                    </div>
+                    <div class="reveal" style="animation-delay: 0.3s;">
+                        <h3 style="color: var(--secondary); margin-bottom: 1rem;">02. ШІ Аналіз</h3>
+                        <p style="color: var(--text-dim);">Використовуючи моделі Llama 3 та Gemini, бот оцінює адекватність, досвід та потенціал кожного кандидата за вашими критеріями.</p>
+                    </div>
+                    <div class="reveal" style="animation-delay: 0.5s;">
+                        <h3 style="color: var(--accent); margin-bottom: 1rem;">03. Прямий Контакт</h3>
+                        <p style="color: var(--text-dim);">Бот автоматично надсилає персоналізоване повідомлення та формує детальне досьє у ваші збережені повідомлення.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" style="padding: 10rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 4rem;">Чому обирають <span class="gradient-text">ШІ-рекрутера</span></h2>
+                <div class="features-grid">
+                    <div class="feature-card glass-card reveal">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Мультимовність</h3>
+                        <p>Підтримка 50+ мов світу. Бот спілкується природно, адаптуючись під тон та мову кандидата завдяки Llama 3/Gemini.</p>
+                    </div>
+                    <div class="feature-card glass-card reveal" style="animation-delay: 0.2s;">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Кастомні Критерії</h3>
+                        <p>Налаштуйте будь-які параметри відбору (досвід, технології, софт-скіли). Бот відхилить "пустишок" і знайде справжніх профі.</p>
+                    </div>
+                    <div class="feature-card glass-card reveal" style="animation-delay: 0.4s;">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Анти-Бан Система</h3>
+                        <p>Інтелектуальне управління лімітами Telegram, зміна IP та емуляція поведінки живої людини для захисту акаунтів від блокувань.</p>
+                    </div>
+                    <div class="feature-card glass-card reveal" style="animation-delay: 0.6s;">
+                        <div class="feature-icon">📊</div>
+                        <h3>Експорт Лідів</h3>
+                        <p>Автоматичне збереження всіх валідних кандидатів у зручну таблицю CSV або безпосередня інтеграція з вашою CRM системою.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" style="padding: 10rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 4rem;">Інвестиція в <span class="gradient-text">Ваш Час</span></h2>
+                <div class="pricing-grid">
+                    <!-- Starter Plan -->
+                    <div class="pricing-card glass-card reveal">
+                        <h3>Starter</h3>
+                        <div class="price gradient-text">$49<span class="period">/міс</span></div>
+                        <p class="plan-desc">Для соло-рекрутерів та невеликих стартапів.</p>
+                        <ul class="plan-features">
+                            <li>До 5 джерел (груп)</li>
+                            <li>100 лідів на місяць</li>
+                            <li>Базова ШІ модель</li>
+                            <li>Експорт в CSV</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width: 100%; justify-content: center;">Обрати Starter</a>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="pricing-card glass-card pro-card reveal" style="animation-delay: 0.2s;">
+                        <div class="popular-badge">Популярний</div>
+                        <h3>Pro</h3>
+                        <div class="price gradient-text">$149<span class="period">/міс</span></div>
+                        <p class="plan-desc">Для HR-агентств та середнього бізнесу.</p>
+                        <ul class="plan-features">
+                            <li>Необмежені джерела</li>
+                            <li>1000 лідів на місяць</li>
+                            <li>Преміум ШІ (Llama 3)</li>
+                            <li>Кастомні промпти</li>
+                            <li>CRM Інтеграція</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary" style="width: 100%; justify-content: center;">Обрати Pro</a>
+                    </div>
+
+                    <!-- Custom Plan -->
+                    <div class="pricing-card glass-card reveal" style="animation-delay: 0.4s;">
+                        <h3>Enterprise</h3>
+                        <div class="price gradient-text">Custom</div>
+                        <p class="plan-desc">Для корпорацій з великими обсягами найму.</p>
+                        <ul class="plan-features">
+                            <li>Власні сервери</li>
+                            <li>Безлімітні ліди</li>
+                            <li>Fine-tuning моделей</li>
+                            <li>Виділена підтримка 24/7</li>
+                            <li>SLA гарантії</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width: 100%; justify-content: center;">Зв'язатися</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" style="padding: 10rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 4rem;">Поширені <span class="gradient-text">Запитання</span></h2>
+                <div class="faq-container reveal">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Чи не заблокують мій Telegram акаунт?</span>
+                            <div class="faq-icon">+</div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Ми використовуємо складну анти-бан систему: ротацію проксі, динамічні паузи між повідомленнями (human-like поведінка) та теплі акаунти. Ризик мінімальний.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Які ШІ моделі ви використовуєте?</span>
+                            <div class="faq-icon">+</div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Залежно від тарифу, ми використовуємо 오픈-сорсні моделі Llama 3 для забезпечення швидкості та приватності, а також API Gemini/Claude для складних логічних оцінок.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Чи можу я змінити критерії пошуку?</span>
+                            <div class="faq-icon">+</div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Так! Ви можете будь-коли оновити системний промпт, додавши ключові технології, вимоги до досвіду або навіть тональність спілкування бота з кандидатом.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Як довго триває налаштування?</span>
+                            <div class="faq-icon">+</div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Інтеграція бота займає до 15 хвилин. Вам достатньо підключити свій акаунт через Telegram API, надати список цільових груп і вписати критерії відбору.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="cta" style="padding: 10rem 0; text-align: center;">
+            <div class="container glass-card" style="padding: 5rem 2rem;">
+                <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Готові до <span class="gradient-text">Масштабу</span>?</h2>
+                <p style="color: var(--text-dim); margin-bottom: 3rem; font-size: 1.25rem;">Приєднуйтесь до майбутнього рекрутингу вже сьогодні.</p>
+                <a href="#" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.5rem 3rem;">Почати безкоштовно</a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 5rem 0 2rem; border-top: 1px solid var(--glass-border); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(20px);">
+        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; margin-bottom: 4rem;">
+            <div>
+                <div class="logo gradient-text" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem;">[Ваш Бренд]</div>
+                <p style="color: var(--text-dim);">Майбутнє найму починається тут. Автоматизуйте рутину і наймайте лише найкращих.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Навігація</h4>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem;">
+                    <li><a href="#how-it-works" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Як це працює</a></li>
+                    <li><a href="#features" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Можливості</a></li>
+                    <li><a href="#pricing" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Тарифи</a></li>
+                    <li><a href="#faq" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Контакти</h4>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem;">
+                    <li style="color: var(--text-dim);">[Ваш Email]</li>
+                    <li style="color: var(--text-dim);">[Ваш Телефон]</li>
+                    <li><a href="https://t.me/your_bot_link" target="_blank" style="color: var(--primary); text-decoration: none; transition: var(--transition);">Підтримка в Telegram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container" style="text-align: center; color: var(--text-dim); padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;">
+            <p>&copy; 2026 [Ваш Бренд]. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
