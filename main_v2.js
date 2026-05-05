@@ -17,39 +17,7 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// 2. Custom Interactive Cursor
-const cursor = document.querySelector('.custom-cursor');
-const dot = document.querySelector('.cursor-dot');
-let cursorX = 0, cursorY = 0, dotX = 0, dotY = 0;
-
-document.addEventListener('mousemove', (e) => {
-    cursorX = e.clientX;
-    cursorY = e.clientY;
-    dotX = e.clientX;
-    dotY = e.clientY;
-    
-    // Snappy dot, smooth ring
-    dot.style.left = `${dotX}px`;
-    dot.style.top = `${dotY}px`;
-});
-
-// Smooth ring follow loop
-function cursorLoop() {
-    const ringX = parseFloat(cursor.style.left || 0);
-    const ringY = parseFloat(cursor.style.top || 0);
-    
-    cursor.style.left = `${ringX + (cursorX - ringX) * 0.15}px`;
-    cursor.style.top = `${ringY + (cursorY - ringY) * 0.15}px`;
-    
-    requestAnimationFrame(cursorLoop);
-}
-cursorLoop();
-
-// Cursor Hover States
-document.querySelectorAll('.hover-link').forEach(link => {
-    link.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-    link.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-});
+// Cursor Hover States removed
 
 // 3. Magnetic Bento & Card Hover
 document.querySelectorAll('.magnetic').forEach(card => {
@@ -164,12 +132,12 @@ function initNetwork() {
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const material = new THREE.PointsMaterial({ size: 0.1, color: 0x0284c7 });
+    const material = new THREE.PointsMaterial({ size: 0.1, color: 0x00e5ff });
     particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
     // Initial Line setup (empty)
-    const linesMaterial = new THREE.LineBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.15 });
+    const linesMaterial = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.15 });
     linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), linesMaterial);
     scene.add(linesMesh);
 
@@ -221,10 +189,9 @@ function networkAnimate() {
 
     linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
     
-    // Parallax on scroll & mouse
+    // Parallax on scroll
     const scrollY = window.scrollY;
     camera.position.y = -(scrollY * 0.005);
-    camera.position.x += ( (cursorX/window.innerWidth - 0.5) * 5 - camera.position.x ) * 0.05;
 
     renderer.render(scene, camera);
 }
