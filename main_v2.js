@@ -243,14 +243,15 @@ function initTerminalSimulation() {
     if (!termBody) return;
 
     const logs = [
-        "> Starting Deep Scan Algorithm...",
-        "> Intercepting Telegram Developer Groups...",
-        { text: "> Target Lock: 154 Active Devs in UA", class: "success" },
-        "> Processing Natural Language queries...",
-        { text: "> MATCH FOUND: @junior_no_more", class: "action" },
-        "> Parsing GitHub Repositories (React, Next.js)..",
-        "> Sent Autonomous Message via Core API.",
-        { text: "> Response Received! Scheduling Interview...", class: "success" }
+        "➡️ Шукаю найкращих спеціалістів у Telegram...",
+        "➡️ Читаю тисячі повідомлень та резюме...",
+        { text: "✅ Знайдено 154 потенційних кандидати", class: "success" },
+        "➡️ Аналізую досвід роботи кожного...",
+        { text: "🔥 ІДЕАЛЬНИЙ КАНДИДАТ: @alex_react_dev", class: "action" },
+        "➡️ Перевіряю його навички та портфоліо...",
+        { text: "⭐ Оцінка: 94/100. Кандидат ідеально підходить!", class: "success" },
+        "➡️ Складаю індивідуальне запрошення на роботу...",
+        { text: "✉️ Повідомлення відправлено! Чекаю на відповідь...", class: "action" }
     ];
 
     let currentLog = 0;
