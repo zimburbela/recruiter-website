@@ -81,8 +81,10 @@ body::before {
 /* Navigation */
 .nav-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; }
 .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-.nav-links a:not(.btn) { color: var(--text-dim); text-decoration: none; font-weight: 600; transition: color 0.3s; }
-.nav-links a:hover:not(.btn) { color: var(--text-pure); }
+.nav-links a:not(.btn):not(.lang-switch) { color: var(--text-dim); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+.nav-links a:hover:not(.btn):not(.lang-switch) { color: var(--text-pure); }
+.lang-switch { font-weight: 700; color: var(--text-pure); text-decoration: none; border: 1px solid var(--glass-border); padding: 0.3rem 0.8rem; border-radius: 6px; transition: var(--transition-snappy); }
+.lang-switch:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
 
 /* Hero Section */
 .hero { min-height: 90vh; display: flex; align-items: center; padding-top: 5rem; }

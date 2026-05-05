@@ -112,8 +112,15 @@ class ScrambleText {
     }
 }
 
+// Internalization Check
+const isEnglish = document.documentElement.lang === 'en';
+
 // Init Scramble on specific elements
-const phrases = [
+const phrases = isEnglish ? [
+    'Creating the Future',
+    'Automation 2.0',
+    'Your Brand'
+] : [
     'Створюємо майбутнє',
     'Автоматизація 2.0',
     'Ваш Бренд'
@@ -236,7 +243,17 @@ function initTerminalSimulation() {
     const termBody = document.getElementById('scrolling-terminal');
     if (!termBody) return;
 
-    const logs = [
+    const logs = isEnglish ? [
+        "➡️ Searching for top specialists in Telegram...",
+        "➡️ Reading thousands of messages and resumes...",
+        { text: "✅ Found 154 potential candidates", class: "success" },
+        "➡️ Analyzing experience and match-score...",
+        { text: "🔥 PERFECT CANDIDATE: @a***_***_dev", class: "action" },
+        "➡️ Verifying skills and GitHub portfolio...",
+        { text: "⭐ Score: 94/100. Candidate is a perfect fit!", class: "success" },
+        "➡️ Generating personalized outreach message...",
+        { text: "✉️ Message sent! Waiting for response...", class: "action" }
+    ] : [
         "➡️ Шукаю найкращих спеціалістів у Telegram...",
         "➡️ Читаю тисячі повідомлень та резюме...",
         { text: "✅ Знайдено 154 потенційних кандидати", class: "success" },
