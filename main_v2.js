@@ -17,7 +17,34 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Cursor Hover States removed
+// 2. Ambient Cursor Glow Physics
+const cursorGlow = document.querySelector('.cursor-glow');
+let glowX = window.innerWidth / 2;
+let glowY = window.innerHeight / 2; 
+let targetX = glowX;
+let targetY = glowY;
+
+document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    
+    if (cursorGlow && cursorGlow.style.opacity === "0" || !cursorGlow.style.opacity) {
+        cursorGlow.style.opacity = "1";
+    }
+});
+
+function animateGlow() {
+    glowX += (targetX - glowX) * 0.08;
+    glowY += (targetY - glowY) * 0.08;
+    
+    if (cursorGlow) {
+        cursorGlow.style.left = `${glowX}px`;
+        cursorGlow.style.top = `${glowY}px`;
+    }
+    
+    requestAnimationFrame(animateGlow);
+}
+animateGlow();
 
 // 3. Magnetic Bento & Card Hover
 document.querySelectorAll('.magnetic').forEach(card => {
