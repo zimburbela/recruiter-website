@@ -98,6 +98,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal, [data-target]').forEach(el => observer.observe(el));
 
+    // Magnetic Card Effect
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // Terminal Typewriter Effect
+    initTerminalSimulation();
+
     // Dynamic 3D Perspective Shift on Scroll
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
@@ -160,3 +174,57 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Terminal Simulation Functions
+function initTerminalSimulation() {
+    const termBody = document.getElementById('scrolling-terminal');
+    if (!termBody) return;
+
+    const logs = [
+        "> Initializing AI Recruiter Engine v2.4...",
+        "> Connecting to Telegram APIs...",
+        { text: "> Connection established. Status: ONLINE", class: "success" },
+        "> Scanning Target Group: 'Frontend Developers UA'...",
+        "> Analyzing 4,500 messages...",
+        { text: "> HIGH MATCH DETECTED: @alex_react_dev", class: "action" },
+        "> Fetching GitHub profile...",
+        "> Skills: React (95%), TS (90%), Three.js (80%)",
+        { text: "> Overall Score: 94/100. Action: APROVED", class: "success" },
+        "> Generating personalized outreach message...",
+        { text: "> Message Sent! Awaiting response...", class: "action" },
+        "> Sleeping for 120s to simulate human behavior..."
+    ];
+
+    let currentLog = 0;
+    
+    function typeNextLine() {
+        if (currentLog >= logs.length) currentLog = 0;
+        
+        const log = logs[currentLog];
+        const text = typeof log === 'string' ? log : log.text;
+        const className = typeof log === 'string' ? '' : log.class;
+        
+        const lineElem = document.createElement('div');
+        lineElem.className = `term-line ${className}`;
+        termBody.appendChild(lineElem);
+        
+        // Typewriter on text
+        let i = 0;
+        function typeChar() {
+            if (i < text.length) {
+                lineElem.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeChar, Math.random() * 30 + 10);
+            } else {
+                currentLog++;
+                if (termBody.children.length > 8) {
+                    termBody.removeChild(termBody.firstChild);
+                }
+                setTimeout(typeNextLine, Math.random() * 1500 + 500);
+            }
+        }
+        typeChar();
+    }
+    
+    setTimeout(typeNextLine, 1500);
+}

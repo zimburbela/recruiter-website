@@ -5,223 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autonomous AI Recruiter | Майбутнє найму</title>
     <meta name="description" content="Автономний ШІ-рекрутер, який знаходить, аналізує та контактує з найкращими кандидатами в Telegram 24/7.">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Modern Premium Styles -->
+    <link rel="stylesheet" href="styles_v2.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- 3D Background Canvas -->
     <canvas id="bg-canvas"></canvas>
+
     <header>
-        <nav class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0;">
-            <div class="logo gradient-text" style="font-size: 1.5rem; font-weight: 800;">[Ваш Бренд]</div>
-            <div class="nav-links" style="display: flex; gap: 2rem; align-items: center;">
-                <a href="#features" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Можливості</a>
-                <a href="#pricing" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Тарифи</a>
-                <a href="#faq" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Запитання</a>
-                <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.5rem;">Авторизація</a>
+        <nav class="container nav-wrapper">
+            <div class="logo gradient-text" data-scramble="[Ваш Бренд]">[Ваш Бренд]</div>
+            <div class="nav-links">
+                <a href="#features" class="hover-link">Можливості</a>
+                <a href="#pricing" class="hover-link">Тарифи</a>
+                <a href="#faq" class="hover-link">Запитання</a>
+                <a href="#" class="btn btn-outline hover-link">Авторизація</a>
             </div>
         </nav>
     </header>
 
     <main>
         <!-- Hero Section -->
-        <section class="hero reveal">
-            <div class="hero-overlay"></div>
-            <div class="container hero-content">
-                <h1 class="reveal" style="animation-delay: 0.2s;">Формуйте елітні команди. Ваш автономний <span class="gradient-text">ШІ-рекрутер</span></h1>
-                <p class="reveal" style="animation-delay: 0.4s;">Виведіть рекрутинг на новий рівень. Автоматизуйте глибинний пошук, експертне оцінювання та залучення найкращих талантів у Telegram. Побудуйте бездоганний кадровий резерв без рутини.</p>
-                <div class="reveal" style="display: flex; gap: 1.5rem; animation-delay: 0.6s;">
-                    <a href="#cta" class="btn btn-primary">Почати роботу</a>
-                    <a href="#features" class="btn btn-outline">Дізнатись більше</a>
+        <section class="hero glass-panel">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="badge-pill reveal">ВЕРСІЯ 2.0. АКТИВНО</div>
+                    <h1 class="reveal-text">Формуйте елітні команди. Ваш автономний <span class="gradient-text gradient-animated">ШІ-рекрутер</span></h1>
+                    <p class="reveal-fade">Виведіть рекрутинг на новий рівень. Автоматизуйте глибинний пошук, експертне оцінювання та залучення найкращих талантів у Telegram.</p>
+                    <div class="cta-buttons reveal-fade delay-2">
+                        <a href="#cta" class="btn btn-primary hover-link hover-target">Почати систему</a>
+                        <a href="#features" class="btn btn-outline hover-link align-center">Дізнатись більше</a>
+                    </div>
+                </div>
+                
+                <!-- AI Terminal -->
+                <div class="bento-box hero-terminal reveal-slide">
+                    <div class="terminal-header">
+                        <div class="window-controls">
+                            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        </div>
+                        <span class="term-title">RecruiterAI_Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="scrolling-terminal"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section style="padding: 5rem 0; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
-            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                <div class="glass-card" style="padding: 3rem; text-align: center;">
-                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="1000">0</div>
-                    <p style="color: var(--text-dim);">Проаналізованих профілів щогодини</p>
-                </div>
-                <div class="glass-card" style="padding: 3rem; text-align: center;">
-                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="50">0</div>
-                    <p style="color: var(--text-dim);">Відібраних кандидатів на добу</p>
-                </div>
-                <div class="glass-card" style="padding: 3rem; text-align: center;">
-                    <div class="gradient-text" style="font-size: 3rem; font-weight: 800;" data-target="100">0</div>
-                    <p style="color: var(--text-dim);">Оптимізація часу найму (%)</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" style="padding: 10rem 0;">
+        <!-- Bento Box Features Section -->
+        <section id="features" class="section-padding">
             <div class="container">
-                <h2 style="text-align: center; font-size: 3.5rem; margin-bottom: 1rem;">Трансформація рекрутингу через <span class="gradient-text">Штучний Інтелект</span></h2>
-                <p style="text-align: center; color: var(--text-dim); font-size: 1.25rem; font-weight: 300; max-width: 800px; margin: 0 auto 5rem; line-height: 1.6;">Зосередьтеся на стратегічному масштабуванні вашого бізнесу, поки наш інтелектуальний агент формує бездоганний кадровий резерв.</p>
-                <div class="features-grid">
-                    <div class="feature-card glass-card reveal">
-                        <div class="feature-icon">🌐</div>
-                        <h3>Глибинний пошук талантів</h3>
+                <h2 class="section-title reveal-text">Синхронізація <span class="gradient-text">Майбутнього</span></h2>
+                <div class="bento-grid">
+                    <!-- Bento Box 1: Large -->
+                    <div class="bento-box bento-large glass-card magnetic">
+                        <div class="bento-icon neural-icon">🧠</div>
+                        <h3 class="bento-title">Глибинний пошук талантів</h3>
                         <p>Розширюйте цифрові горизонти. Система безперервно аналізує тисячі закритих спільнот та чатів, миттєво поповнюючи вашу базу виключно релевантними спеціалістами.</p>
+                        <div class="bento-glow"></div>
                     </div>
-                    <div class="feature-card glass-card reveal" style="animation-delay: 0.2s;">
-                        <div class="feature-icon">🔍</div>
-                        <h3>Експертне оцінювання компетенцій</h3>
-                        <p>Заощаджуйте сотні годин рутинної роботи. Наш алгоритм проводить миттєвий аналіз професійних навичок та особистісних якостей, безжально відсіюючи невідповідні профілі.</p>
+                    
+                    <!-- Bento Box 2: Medium -->
+                    <div class="bento-box glass-card magnetic delay-1">
+                        <div class="bento-icon flash-icon">⚡</div>
+                        <h3 class="bento-title">Миттєве оцінювання</h3>
+                        <p>Екстракція даних та семантичний метчінг профілів за мілісекунди.</p>
+                        <div class="bento-glow"></div>
                     </div>
-                    <div class="feature-card glass-card reveal" style="animation-delay: 0.4s;">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Персоналізована комунікація</h3>
-                        <p>Абсолютно новий рівень встановлення контакту. Алгоритм генерує унікальні звернення для кожного таланту, гарантуючи найвищий рівень відгуку та лояльності.</p>
+
+                    <!-- Bento Box 3: Medium -->
+                    <div class="bento-box glass-card magnetic delay-2">
+                        <div class="bento-icon auth-icon">🔒</div>
+                        <h3 class="bento-title">Безшовна синхронізація</h3>
+                        <p>Експорт лідів безпосередньо у вашу ATS без втрат.</p>
+                        <div class="bento-glow"></div>
                     </div>
-                    <div class="feature-card glass-card reveal" style="animation-delay: 0.6s;">
-                        <div class="feature-icon">📊</div>
-                        <h3>Безшовна синхронізація даних</h3>
-                        <p>Абсолютний контроль над інформацією та автоматизація. Миттєвий експорт усіх підтверджених лідів безпосередньо у вашу корпоративну систему обліку без втрати даних.</p>
+                    
+                    <!-- Bento Box 4: Wide -->
+                    <div class="bento-box bento-wide glass-card magnetic delay-3">
+                        <div class="bento-icon speech-icon">💬</div>
+                        <div class="bento-wide-content">
+                            <h3 class="bento-title">Персоналізована комунікація</h3>
+                            <p>Унікальні генеративні звернення, створені ШІ для кожного кандидата індивідуально в Telegram, підвищують рівень відгуку в 4 рази.</p>
+                        </div>
+                        <div class="bento-glow"></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Pricing Section -->
-        <section id="pricing" style="padding: 10rem 0;">
+        <section id="pricing" class="section-padding">
             <div class="container">
-                <h2 style="text-align: center; font-size: 3.5rem; margin-bottom: 4rem;">Ефективне масштабування <span class="gradient-text">Команди</span></h2>
+                <h2 class="section-title reveal-text">Трансформація <span class="gradient-text">Команд</span></h2>
                 <div class="pricing-grid">
-                    <!-- Starter Plan -->
-                    <div class="pricing-card glass-card reveal">
+                    <div class="bento-box pricing-card glass-card magnetic">
                         <h3>Базовий</h3>
                         <div class="price gradient-text">$49<span class="period">/міс</span></div>
-                        <p class="plan-desc">Фундамент для формування першого кадрового резерву.</p>
+                        <p class="plan-desc">Основа для старту.</p>
                         <ul class="plan-features">
-                            <li>До 5 джерел пошуку</li>
-                            <li>100 цільових лідів на місяць</li>
-                            <li>Базовий аналіз профілів</li>
+                            <li>5 джерел пошуку</li>
+                            <li>100 цільових лідів</li>
                             <li>Експорт у форматі CSV</li>
                         </ul>
-                        <a href="#" class="btn btn-outline" style="width: 100%; justify-content: center;">Обрати Базовий</a>
+                        <a href="#" class="btn btn-outline full-width hover-link">Обрати Базовий</a>
+                        <div class="bento-glow"></div>
                     </div>
 
-                    <!-- Pro Plan -->
-                    <div class="pricing-card glass-card pro-card reveal" style="animation-delay: 0.2s;">
-                        <div class="popular-badge">Висока ефективність</div>
-                        <h3>Професійний</h3>
-                        <div class="price gradient-text">$149<span class="period">/міс</span></div>
-                        <p class="plan-desc">Повна автоматизація процесу для передових агенцій.</p>
+                    <div class="bento-box pricing-card glass-card pro-card magnetic">
+                        <div class="popular-badge">Рекомендовано</div>
+                        <h3 style="margin-top: 1rem;">Професійний</h3>
+                        <div class="price gradient-text" style="font-size: 4.5rem;">$149<span class="period">/міс</span></div>
+                        <p class="plan-desc">Повна автоматизація процесу.</p>
                         <ul class="plan-features">
-                            <li>Необмежена кількість джерел</li>
-                            <li>1000 цільових лідів на місяць</li>
-                            <li>Поглиблений аналіз через Llama 3</li>
-                            <li>Індивідуальні критерії відбору</li>
-                            <li>Синхронізація з CRM-системами</li>
+                            <li>Необмежені джерела</li>
+                            <li>1000 лідів/місяць</li>
+                            <li>LLM Аналітика (Llama 3)</li>
+                            <li>Інтеграція з CRM</li>
                         </ul>
-                        <a href="#" class="btn btn-primary" style="width: 100%; justify-content: center;">Перейти на Професійний</a>
+                        <a href="#" class="btn btn-primary full-width hover-link hover-target">Обрати Професійний</a>
+                        <div class="bento-glow"></div>
                     </div>
 
-                    <!-- Custom Plan -->
-                    <div class="pricing-card glass-card reveal" style="animation-delay: 0.4s;">
+                    <div class="bento-box pricing-card glass-card magnetic">
                         <h3>Корпоративний</h3>
                         <div class="price gradient-text">Custom</div>
-                        <p class="plan-desc">Виділений інтелектуальний центр для корпорацій.</p>
+                        <p class="plan-desc">Для ентерпрайз еліт.</p>
                         <ul class="plan-features">
-                            <li>Приватний хмарний сервер</li>
-                            <li>Необмежений потік кандидатів</li>
+                            <li>Приватний сервер</li>
+                            <li>Необмежено лідів</li>
                             <li>Індивідуальне навчання ШІ</li>
-                            <li>Пріоритетна технічна підтримка 24/7</li>
-                            <li>Розгортання під вашим брендом</li>
                         </ul>
-                        <a href="#" class="btn btn-outline" style="width: 100%; justify-content: center;">Зв'язатися з відділом продажів</a>
+                        <a href="#" class="btn btn-outline full-width hover-link">Зв'язатись</a>
+                        <div class="bento-glow"></div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section id="faq" style="padding: 10rem 0;">
-            <div class="container">
-                <h2 style="text-align: center; font-size: 3.5rem; margin-bottom: 4rem;">Відповіді на <span class="gradient-text">Часті запитання</span></h2>
-                <div class="faq-container reveal">
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Скільки часу займає впровадження системи?</span>
-                            <div class="faq-icon">+</div>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Розгортання нашого інтелектуального рішення займає не більше 15 хвилин. Ви підключаєте систему через API, задаєте критерії пошуку, і процес формування бази починається миттєво.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Чи безпечне використання системи для нашої компанії?</span>
-                            <div class="faq-icon">+</div>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Абсолютно надійно. Програма функціонує як незалежний алгоритм із досконалим керуванням лімітами та імітацією поведінки реальної людини, що повністю виключає ризик блокувань.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Як саме працює алгоритм оцінювання фахівців?</span>
-                            <div class="faq-icon">+</div>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Ми використовуємо передові мовні моделі (LLM) для глибинного семантичного аналізу. Інтелект детально порівнює ваші суворі вимоги до вакансії із профілем спеціаліста перед встановленням контакту.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Чи підтримується синхронізація з корпоративною платформою керування наймом?</span>
-                            <div class="faq-icon">+</div>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Ми забезпечуємо бездоганну інтеграцію через автоматизовані запити або прямий експорт. Дані про унікальних фахівців миттєво інтегруються у ваш процес управління персоналом без ручного втручання.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section id="cta" style="padding: 10rem 0; text-align: center;">
-            <div class="container glass-card" style="padding: 5rem 2rem;">
-                <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Зростайте з <span class="gradient-text">Абсолютною Впевненістю</span></h2>
-                <p style="color: var(--text-dim); margin-bottom: 3rem; font-size: 1.25rem;">Від первинного пошуку до експертного відбору — наша інтелектуальна платформа допомагає виявляти елітних спеціалістів ефективніше та безпомилково.</p>
-                <a href="#features" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.5rem 3rem;">Розпочати співпрацю</a>
             </div>
         </section>
     </main>
 
-    <footer style="padding: 5rem 0 2rem; border-top: 1px solid var(--glass-border); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(20px);">
-        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem; margin-bottom: 4rem;">
-            <div>
-                <div class="logo gradient-text" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem;">[Ваш Бренд]</div>
-                <p style="color: var(--text-dim);">Майбутнє найму починається тут. Автоматизуйте рутину і наймайте лише найкращих.</p>
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div class="logo gradient-text" style="font-size: 2rem;">[Ваш Бренд]</div>
+                <p>Майбутнє найму. Систематизуйте, автоматизуйте, домінуйте.</p>
             </div>
-            <div>
-                <h4 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Навігація</h4>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem;">
-                    <li><a href="#features" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Можливості</a></li>
-                    <li><a href="#pricing" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Тарифи</a></li>
-                    <li><a href="#faq" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Запитання</a></li>
-                    <li><a href="#cta" style="color: var(--text-dim); text-decoration: none; transition: var(--transition);">Почати співпрацю</a></li>
-                </ul>
+            <div class="footer-copy">
+                <p>&copy; 2026 Всі права захищені.</p>
             </div>
-            <div>
-                <h4 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Офіційні контакти</h4>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem;">
-                    <li style="color: var(--text-dim);">[Ваш Email]</li>
-                    <li style="color: var(--text-dim);">[Ваш Телефон]</li>
-                    <li><a href="https://t.me/your_bot_link" target="_blank" style="color: var(--primary); text-decoration: none; transition: var(--transition);">Підтримка в Telegram</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="container" style="text-align: center; color: var(--text-dim); padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;">
-            <p>&copy; 2026 [Ваш Бренд]. Всі права захищені.</p>
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <!-- Scripts Cache Busted Native -->
+    <script src="main_v2.js"></script>
 </body>
 </html>
