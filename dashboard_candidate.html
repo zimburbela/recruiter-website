@@ -197,10 +197,19 @@
                         </div>
                     </section>
                     
-                    <section class="dash-card" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 229, 255, 0.05), rgba(157, 0, 255, 0.05));">
-                        <h2 class="card-title" style="font-size: 1rem; margin-bottom: 0.5rem;">Telegram Сповіщення</h2>
-                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem;">Отримуйте нові вакансії миттєво.</p>
-                        <a href="https://t.me/talentpulse_ai" class="btn btn-primary btn-nav full-width" target="_blank">Підключити бот</a>
+                    <section class="dash-card" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 229, 255, 0.05)); border: 1px solid rgba(0,255,136,0.15);">
+                        <h2 class="card-title" style="font-size: 1rem; margin-bottom: 0.5rem;">⚡️ Сповіщення в Telegram</h2>
+                        <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1rem;">Отримуйте «Гарячі вакансії» (95%+ збіг) прямо в особисті повідомлення.</p>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.8rem;">
+                            <input
+                                type="text"
+                                id="tg-username-input"
+                                placeholder="@your_username"
+                                style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.5rem 0.8rem; color: #fff; font-size: 0.85rem; outline: none;"
+                            >
+                            <button id="tg-save-btn" onclick="saveTelegramUsername()" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Зберегти</button>
+                        </div>
+                        <p id="tg-status" style="font-size: 0.75rem; color: var(--primary); min-height: 1rem;"></p>
                     </section>
                 </div>
             </div>
@@ -210,5 +219,50 @@
     <!-- Scripts -->
     <script src="main_v2.js"></script>
     <script src="dashboard.js"></script>
+    <script>
+    async function saveTelegramUsername() {
+        const input = document.getElementById('tg-username-input');
+        const status = document.getElementById('tg-status');
+        const username = input.value.trim();
+        if (!username) { status.textContent = 'Введіть ваш username'; return; }
+        const token = localStorage.getItem('token');
+        status.textContent = 'Зберігаємо...';
+        try {
+            const res = await fetch('https://zimburbels-recruiter-bot.hf.space/api/user/profile', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ telegram_username: username })
+            });
+            if (res.ok) {
+                status.textContent = '✅ Telegram підключено! Очікуйте сповіщень.';
+                status.style.color = 'var(--primary)';
+            } else {
+                status.textContent = '❌ Помилка. Спробуйте ще раз.';
+                status.style.color = '#ff4d6d';
+            }
+        } catch(e) {
+            status.textContent = '❌ Помилка мережі.';
+            status.style.color = '#ff4d6d';
+        }
+    }
+
+    // Pre-fill Telegram username from profile
+    (async function loadProfile() {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        try {
+            const res = await fetch('https://zimburbels-recruiter-bot.hf.space/api/user/me', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.telegram_username) {
+                    document.getElementById('tg-username-input').value = '@' + data.telegram_username;
+                    document.getElementById('tg-status').textContent = '✅ Telegram вже підключено.';
+                }
+            }
+        } catch(e) {}
+    })();
+    </script>
 </body>
 </html>
