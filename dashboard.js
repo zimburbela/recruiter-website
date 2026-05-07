@@ -125,8 +125,8 @@ async function loadCandidates() {
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div class="avatar" style="background: var(--primary); color: #000;">${cand.name ? cand.name[0] : '?'}</div>
                         <div>
-                            <div style="font-weight: 700;">${cand.name || 'Anonymous'}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-dim);">@${cand.username || 'n/a'} • ${cand.source}</div>
+                            <div style="font-weight: 700;">${cand.name || 'Анонімний'}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-dim);">@${cand.username || 'н/д'} • ${cand.source}</div>
                         </div>
                     </div>
                 </td>
@@ -147,20 +147,20 @@ function initDashboardTerminal() {
     if (!terminal) return;
 
     const logs = [
-        'Searching Telegram: "React Developer Lviv"',
-        'Found 5 new messages in Group "Lviv IT Jobs"',
-        'Analyzing candidate @alex_dev...',
-        'Score: 92/100. Hot Lead found! 🔥',
-        'Sending notification to owner via Telegram...',
-        'Monitoring Work.ua: "Project Manager"',
-        'Found new vacancy on Robota.ua',
-        'Scraping Djinni... 12 potential matches',
-        'Analyzing candidate @maria_ui...',
-        'Score: 78/100. Added to pool.',
-        'Analyzing candidate @den_backend...',
-        'Score: 89/100. Candidate matching requirements.',
-        'Updating campaign: "Senior React" (+2 new leads)',
-        'Heartbeat: Engine status OK. Scanned 1200+ profiles today.'
+        'Пошук у Telegram: "React Developer Lviv"',
+        'Знайдено 5 нових повідомлень у групі "Lviv IT Jobs"',
+        'Аналіз кандидата @alex_dev...',
+        'Оцінка: 92/100. Знайдено гарячого ліда! 🔥',
+        'Надсилання сповіщення власнику через Telegram...',
+        'Моніторинг Work.ua: "Project Manager"',
+        'Знайдено нову вакансію на Robota.ua',
+        'Парсинг Djinni... 12 потенційних кандидатів',
+        'Аналіз кандидата @maria_ui...',
+        'Оцінка: 78/100. Додано в пул.',
+        'Аналіз кандидата @den_backend...',
+        'Оцінка: 89/100. Кандидат відповідає вимогам.',
+        'Оновлення кампанії: "Senior React" (+2 нових ліда)',
+        'Heartbeat: Статус системи OK. Скановано 1200+ профілів сьогодні.'
     ];
     
     let i = 0;

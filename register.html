@@ -29,18 +29,22 @@
             
             <form id="registerForm">
                 <div class="form-group">
-                    <label class="form-label">Повне ім'я</label>
+                    <label for="fullname" class="form-label">Повне ім'я</label>
                     <input type="text" id="fullname" class="form-input" placeholder="Іван Іванов" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="alex@example.com">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Пароль</label>
+                    <label for="phone" class="form-label">Або номер телефону</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="+380 00 000 0000">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Пароль</label>
                     <input type="password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-primary auth-btn">Зареєструватись</button>
+                <button type="submit" class="btn btn-primary btn-nav full-width auth-btn">Зареєструватись</button>
             </form>
             
             <div class="auth-footer">
@@ -51,29 +55,44 @@
 
     <script src="main_v2.js"></script>
     <script>
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
             const fullname = document.getElementById('fullname').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             
+            if (!email && !phone) {
+                alert('Будь ласка, вкажіть Email або Номер телефону');
+                return;
+            }
+
             try {
                 const res = await fetch('https://zimburbels-recruiter-bot.hf.space/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password, full_name: fullname })
+                    body: JSON.stringify({ email, phone, password, full_name: fullname })
                 });
+
                 const data = await res.json();
                 if (res.ok) {
-                    alert('Реєстрація успішна! Тепер ви можете увійти.');
-                    window.location.href = 'login.html';
+                    // Store identifier for verification page
+                    localStorage.setItem('verify_identifier', email || phone);
+                    
+                    // IF we have a simulated code, show it (as requested by user for phone/email confirmation feasibility)
+                    if (data.verification_code_sim) {
+                        alert(`Реєстрація успішна! Введіть код підтвердження: ${data.verification_code_sim}`);
+                    } else {
+                        alert('Реєстрація успішна! Будь ласка, перевірте свій Email або Телефон на наявність коду доступу.');
+                    }
+                    window.location.href = 'verify.html';
                 } else {
                     alert(data.detail || 'Помилка реєстрації');
                 }
             } catch (err) {
                 alert('Неможливо з’єднатися з сервером');
             }
-        });
+        };
     </script>
 </body>
 </html>
