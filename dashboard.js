@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initDashboardTerminal(userRole);
     loadStats();
-    loadCandidates();
+    if (userRole === 'candidate') {
+        loadVacancies();
+    } else {
+        loadCandidates();
+    }
     loadAgents();
 });
 
@@ -144,12 +148,60 @@ async function loadCandidates() {
                 </td>
                 <td><span class="score-badge ${isHot ? 'score-high' : ''}">${isHot ? '🔥' : '✅'} ${cand.score}/100</span></td>
                 <td><span style="font-size: 0.8rem; color: var(--text-dim);">${cand.source}</span></td>
-                <td style="text-align: right;"><button class="btn btn-outline btn-nav" onclick="alert('${cand.dossier.replace(/'/g, "\\'").substring(0, 100)}...')">Досьє</button></td>
+                <td style="text-align: right;"><button class="btn btn-outline btn-nav" onclick="alert('${(cand.dossier || '').replace(/'/g, "\\'").substring(0, 100)}...')">Досьє</button></td>
             `;
             table.appendChild(row);
         });
     } catch (e) {
         console.error("Failed to load candidates", e);
+    }
+}
+
+// ─── 2.5. Vacancy Loader ───
+async function loadVacancies() {
+    const table = document.getElementById('vacancies-table');
+    if (!table) return;
+
+    try {
+        let vacancies;
+        if (CONFIG.USE_MOCK) {
+            vacancies = [
+                { title: 'Senior Python Engineer', company: 'SoftServe', salary: '$4500 - $6000', source: 'Djinni.co', match_score: 98, url: '#' }
+            ];
+        } else {
+            const res = await fetchAuth(`${CONFIG.API_BASE_URL}/vacancies?limit=10`);
+            vacancies = await res.json();
+            if(!vacancies.length) {
+                table.innerHTML = '<tr class="candidate-row"><td colspan="4" style="text-align:center;color:var(--text-dim);">Поки що немає знайдених вакансій. Зачекайте роботу ШІ...</td></tr>';
+                return;
+            }
+        }
+
+        table.innerHTML = ''; 
+        vacancies.forEach(vac => {
+            const row = document.createElement('tr');
+            row.className = 'candidate-row';
+            const isTopMatch = vac.match_score >= 90;
+            const fallbackInitial = vac.company ? vac.company[0] : 'V';
+            
+            row.innerHTML = `
+                <td>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="avatar" style="background: linear-gradient(135deg, #00e5ff, #9d00ff);">${fallbackInitial}</div>
+                        <div>
+                            <div style="font-weight: 700;">${vac.title}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-dim);">${vac.company} • ${vac.salary}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="score-badge ${isTopMatch ? 'score-high' : ''}">${isTopMatch ? '🔥' : '✅'} ${vac.match_score}% Match</span></td>
+                <td><span style="font-size: 0.8rem; color: var(--text-dim);">${vac.source}</span></td>
+                <td style="text-align: right;"><a href="${vac.url}" target="_blank" class="btn btn-primary btn-nav">Відгукнутись</a></td>
+            `;
+            table.appendChild(row);
+        });
+    } catch (e) {
+        console.error("Failed to load vacancies", e);
     }
 }
 
