@@ -9,7 +9,19 @@ const CONFIG = {
 
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
-    initDashboardTerminal();
+    const userRole = localStorage.getItem('user_role') || 'recruiter';
+    
+    // Redirect if on wrong page
+    const currentPage = window.location.pathname.split('/').pop();
+    if (userRole === 'candidate' && currentPage === 'dashboard.html') {
+        window.location.href = 'dashboard_candidate.html';
+        return;
+    } else if (userRole === 'recruiter' && currentPage === 'dashboard_candidate.html') {
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
+    initDashboardTerminal(userRole);
     loadStats();
     loadCandidates();
     loadAgents();
@@ -142,11 +154,11 @@ async function loadCandidates() {
 }
 
 // ─── 3. Dashboard Terminal Simulation ───
-function initDashboardTerminal() {
+function initDashboardTerminal(role = 'recruiter') {
     const terminal = document.getElementById('dashboard-terminal');
     if (!terminal) return;
 
-    const logs = [
+    const recruiterLogs = [
         'Пошук у Telegram: "React Developer Lviv"',
         'Знайдено 5 нових повідомлень у групі "Lviv IT Jobs"',
         'Аналіз кандидата @alex_dev...',
@@ -162,6 +174,21 @@ function initDashboardTerminal() {
         'Оновлення кампанії: "Senior React" (+2 нових ліда)',
         'Heartbeat: Статус системи OK. Скановано 1200+ профілів сьогодні.'
     ];
+
+    const candidateLogs = [
+        'Сканування Djinni: "Python Developer"',
+        'Знайдено вакансію у SoftServe ($5000)',
+        'Спроба метчингу з вашим резюме...',
+        'Метч: 98%. Вакансія додана до списку.',
+        'Моніторинг Work.ua: "Backend Engineer"',
+        'ШІ аналізує опис вакансії GlobalLogic...',
+        'Знайдено нову вакансію у Ciklum',
+        'Порівняння навичок: Python, FastAPI ✔️',
+        'ШІ генерує супровідний лист для MacPaw...',
+        'Статус: 12 нових вакансій знайдено за сьогодні.'
+    ];
+
+    const logs = role === 'candidate' ? candidateLogs : recruiterLogs;
     
     let i = 0;
     function addLog() {

@@ -44,6 +44,13 @@
                     <label for="password" class="form-label">Пароль</label>
                     <input type="password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
+                <div class="form-group">
+                    <label for="role" class="form-label">Ваша роль</label>
+                    <select id="role" class="form-input" style="background: rgba(255, 255, 255, 0.05);">
+                        <option value="recruiter">Я Рекрутер (шукаю людей)</option>
+                        <option value="candidate">Я Кандидат (шукаю роботу)</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary btn-nav full-width auth-btn">Зареєструватись</button>
             </form>
             
@@ -68,10 +75,11 @@
             }
 
             try {
+                const role = document.getElementById('role').value;
                 const res = await fetch('https://zimburbels-recruiter-bot.hf.space/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, phone, password, full_name: fullname })
+                    body: JSON.stringify({ email, phone, password, full_name: fullname, role })
                 });
 
                 const data = await res.json();

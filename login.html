@@ -91,7 +91,8 @@
                 const data = await res.json();
                 if (res.ok) {
                     localStorage.setItem('token', data.access_token);
-                    window.location.href = 'dashboard.html';
+                    localStorage.setItem('user_role', data.role || 'recruiter');
+                    window.location.href = data.role === 'candidate' ? 'dashboard_candidate.html' : 'dashboard.html';
                 } else {
                     alert(data.detail || 'Помилка входу');
                 }
