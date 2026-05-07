@@ -4,15 +4,34 @@
 
 const CONFIG = {
     API_BASE_URL: 'http://localhost:8000/api', // Update with your actual server URL
-    USE_MOCK: true // Set to false when backend is running
+    USE_MOCK: false // Set to false when backend is running
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
     initDashboardTerminal();
     loadStats();
     loadCandidates();
     loadAgents();
 });
+
+function checkAuth() {
+    const token = localStorage.getItem('token');
+    if (!token && !CONFIG.USE_MOCK) {
+        window.location.href = 'login.html';
+    }
+    return token;
+}
+
+// ─── Helper for Fetch with Auth ───
+async function fetchAuth(url, options = {}) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`
+    };
+    return fetch(url, { ...options, headers });
+}
 
 // ─── 0. Agent Loader ───
 async function loadAgents() {
@@ -28,7 +47,7 @@ async function loadAgents() {
                 { name: 'Dev Hunter', status: 'stopped' }
             ];
         } else {
-            const res = await fetch(`${CONFIG.API_BASE_URL}/agents`);
+            const res = await fetchAuth(`${CONFIG.API_BASE_URL}/agents`);
             agents = await res.json();
         }
 
@@ -58,7 +77,7 @@ async function loadStats() {
         if (CONFIG.USE_MOCK) {
             statsData = [{ candidates_found: 42, hot_leads: 7, messages_analyzed: 1284, ads_posted: 12 }];
         } else {
-            const res = await fetch(`${CONFIG.API_BASE_URL}/stats`);
+            const res = await fetchAuth(`${CONFIG.API_BASE_URL}/stats`);
             statsData = await res.json();
         }
         
@@ -92,7 +111,7 @@ async function loadCandidates() {
                 { name: 'Ден М.', username: 'den_backend', score: 89, source: 'Work.ua', dossier: 'Node.js Backend expert.' }
             ];
         } else {
-            const res = await fetch(`${CONFIG.API_BASE_URL}/candidates?limit=5`);
+            const res = await fetchAuth(`${CONFIG.API_BASE_URL}/candidates?limit=5`);
             candidates = await res.json();
         }
 

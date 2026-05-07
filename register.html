@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | TalentPulse AI</title>
+    <link rel="stylesheet" href="styles_v2.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        /* Reusing styles from login.html */
+        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: var(--bg-base); }
+        .auth-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; width: 100%; max-width: 450px; backdrop-filter: blur(20px); }
+        .auth-title { font-family: var(--font-display); font-size: 2rem; font-weight: 800; margin-bottom: 2rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-dim); }
+        .form-input { width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-pure); font-family: inherit; }
+        .form-input:focus { border-color: var(--primary); outline: none; }
+        .auth-btn { width: 100%; padding: 1rem; margin-top: 1rem; }
+        .auth-footer { margin-top: 2rem; text-align: center; font-size: 0.9rem; color: var(--text-dim); }
+        .auth-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    <div class="auth-wrapper">
+        <div class="auth-card scroll-reveal revealed">
+            <div style="text-align: center; margin-bottom: 1rem; font-size: 2rem;">🚀</div>
+            <h1 class="auth-title">Створити <span class="gradient-text">Акаунт</span></h1>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Повне ім'я</label>
+                    <input type="text" id="fullname" class="form-input" placeholder="Іван Іванов" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary auth-btn">Зареєструватись</button>
+            </form>
+            
+            <div class="auth-footer">
+                Вже є акаунт? <a href="login.html" class="auth-link">Увійти</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="main_v2.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const res = await fetch('http://localhost:8000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, full_name: fullname })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Реєстрація успішна! Тепер ви можете увійти.');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.detail || 'Помилка реєстрації');
+                }
+            } catch (err) {
+                alert('Неможливо з’єднатися з сервером');
+            }
+        });
+    </script>
+</body>
+</html>

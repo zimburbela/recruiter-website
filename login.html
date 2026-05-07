@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TalentPulse AI</title>
+    <link rel="stylesheet" href="styles_v2.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        .auth-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg-base);
+        }
+        .auth-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(20px);
+        }
+        .auth-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-dim); }
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-pure);
+            font-family: inherit;
+        }
+        .form-input:focus { border-color: var(--primary); outline: none; }
+        .auth-btn { width: 100%; padding: 1rem; margin-top: 1rem; }
+        .auth-footer { margin-top: 2rem; text-align: center; font-size: 0.9rem; color: var(--text-dim); }
+        .auth-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    <div class="auth-wrapper">
+        <div class="auth-card scroll-reveal revealed">
+            <div style="text-align: center; margin-bottom: 1rem; font-size: 2rem;">⚡</div>
+            <h1 class="auth-title">Вхід в <span class="gradient-text">TalentPulse</span></h1>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary auth-btn">Увійти</button>
+            </form>
+            
+            <div class="auth-footer">
+                Немає акаунту? <a href="register.html" class="auth-link">Зареєструватись</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="main_v2.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const formData = new FormData();
+            formData.append('username', email);
+            formData.append('password', password);
+
+            try {
+                const res = await fetch('http://localhost:8000/api/auth/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.detail || 'Помилка входу');
+                }
+            } catch (err) {
+                alert('Неможливо з’єднатися з сервером');
+            }
+        });
+    </script>
+</body>
+</html>
