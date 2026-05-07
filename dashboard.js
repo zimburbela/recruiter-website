@@ -3,8 +3,8 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const CONFIG = {
-    API_BASE_URL: 'http://localhost:8000/api', // Update with your actual server URL
-    USE_MOCK: false // Set to false when backend is running
+    API_BASE_URL: 'https://zimburbels-recruiter-bot.hf.space/api', 
+    USE_MOCK: false
 };
 
 document.addEventListener('DOMContentLoaded', () => {
