@@ -15,6 +15,39 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles_v2.css">
     <link rel="stylesheet" href="dashboard.css">
+    <style>
+        /* Candidate Theme Override */
+        :root {
+            --primary: #00ff88;  /* Neon Green */
+            --accent: #00e5ff;   /* Cyan */
+        }
+        .cursor-glow {
+            background: radial-gradient(circle at center, rgba(0, 255, 136, 0.15) 0%, transparent 60%);
+        }
+        .stat-pill .value { text-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+        .cv-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .cv-card:hover {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .skill-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 0.2rem;
+            color: var(--text-dim);
+        }
+    </style>
 </head>
 <body class="dashboard-body">
     <!-- Ambient Cursor Glow -->
@@ -99,9 +132,38 @@
             </div>
 
             <!-- Content Grid -->
-            <div class="dashboard-grid">
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 350px;">
                 <!-- Main Activity Section -->
-                <section class="dash-card">
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    
+                    <!-- CV Upload Section -->
+                    <section class="dash-card">
+                        <div class="card-header">
+                            <h2 class="card-title">Аналіз Резюме</h2>
+                            <span class="badge-dot" style="background: var(--primary); width: 10px; height: 10px;"></span>
+                        </div>
+                        <div style="display: flex; gap: 1.5rem; align-items: center;">
+                            <div class="cv-card" style="flex: 1;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
+                                <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Ваше CV (PDF/DOCX)</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1rem;">Завантажте резюме, щоб ШІ міг надсилати його рекрутерам автоматично.</p>
+                                <button class="btn btn-outline">Завантажити файл</button>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">Розпізнані навички</h4>
+                                <div id="skills-container">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">FastAPI</span>
+                                    <span class="skill-tag">PostgreSQL</span>
+                                    <span class="skill-tag">English (B2)</span>
+                                    <span class="skill-tag">Git</span>
+                                </div>
+                                <button class="btn btn-outline" style="font-size: 0.7rem; padding: 0.3rem 0.6rem; margin-top: 0.8rem; border-color: rgba(255,255,255,0.1);">+ Додати навичку</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="dash-card">
                     <div class="card-header">
                         <h2 class="card-title">Підходящі вакансії</h2>
                         <a href="#" class="btn btn-outline btn-nav">Всі вакансії</a>
@@ -124,6 +186,7 @@
                         </tr>
                     </table>
                 </section>
+                </div>
 
                 <!-- Side Info -->
                 <div style="display: flex; flex-direction: column; gap: 2rem;">
