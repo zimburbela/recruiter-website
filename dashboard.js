@@ -2,12 +2,127 @@
    TalentPulse AI — Dashboard Script
    ═══════════════════════════════════════════════════════════════ */
 
+const CONFIG = {
+    API_BASE_URL: 'http://localhost:8000/api', // Update with your actual server URL
+    USE_MOCK: true // Set to false when backend is running
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initDashboardTerminal();
-    initStatsAnimation();
+    loadStats();
+    loadCandidates();
+    loadAgents();
 });
 
-// ─── 1. Dashboard Terminal Simulation ───
+// ─── 0. Agent Loader ───
+async function loadAgents() {
+    const list = document.getElementById('sidebar-agents');
+    if (!list) return;
+
+    try {
+        let agents;
+        if (CONFIG.USE_MOCK) {
+            agents = [
+                { name: 'Головний Агент', status: 'active' },
+                { name: 'Lviv Scouting', status: 'active' },
+                { name: 'Dev Hunter', status: 'stopped' }
+            ];
+        } else {
+            const res = await fetch(`${CONFIG.API_BASE_URL}/agents`);
+            agents = await res.json();
+        }
+
+        list.innerHTML = '';
+        agents.forEach(agent => {
+            const item = document.createElement('div');
+            item.className = 'nav-item';
+            item.style.padding = '0.5rem 1rem';
+            item.style.fontSize = '0.85rem';
+            item.style.gap = '0.8rem';
+            const isActive = agent.status === 'active';
+            item.innerHTML = `
+                <div class="badge-dot" style="background: ${isActive ? 'var(--success)' : 'var(--text-dim)'}; width: 8px; height: 8px; flex-shrink: 0;"></div>
+                <span class="nav-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${agent.name}</span>
+            `;
+            list.appendChild(item);
+        });
+    } catch (e) {
+        console.error("Failed to load agents", e);
+    }
+}
+
+// ─── 1. Stats Loader ───
+async function loadStats() {
+    try {
+        let statsData;
+        if (CONFIG.USE_MOCK) {
+            statsData = [{ candidates_found: 42, hot_leads: 7, messages_analyzed: 1284, ads_posted: 12 }];
+        } else {
+            const res = await fetch(`${CONFIG.API_BASE_URL}/stats`);
+            statsData = await res.json();
+        }
+        
+        if (statsData && statsData.length > 0) {
+            const latest = statsData[0];
+            const values = document.querySelectorAll('.stat-pill .value');
+            if (values.length >= 3) {
+                values[0].innerText = latest.messages_analyzed.toLocaleString();
+                values[1].innerText = latest.candidates_found;
+                values[2].innerText = latest.hot_leads;
+            }
+            initStatsAnimation();
+        }
+    } catch (e) {
+        console.error("Failed to load stats", e);
+        initStatsAnimation(); // run anyway for mock feel
+    }
+}
+
+// ─── 2. Candidate Loader ───
+async function loadCandidates() {
+    const table = document.querySelector('.candidate-table');
+    if (!table) return;
+
+    try {
+        let candidates;
+        if (CONFIG.USE_MOCK) {
+            candidates = [
+                { name: 'Олександр К.', username: 'alex_dev', score: 92, source: 'Djinni.co', dossier: 'React Developer with 5 years experience.' },
+                { name: 'Марія Л.', username: 'maria_ui', score: 78, source: 'Telegram', dossier: 'UI/UX Designer specialized in mobile apps.' },
+                { name: 'Ден М.', username: 'den_backend', score: 89, source: 'Work.ua', dossier: 'Node.js Backend expert.' }
+            ];
+        } else {
+            const res = await fetch(`${CONFIG.API_BASE_URL}/candidates?limit=5`);
+            candidates = await res.json();
+        }
+
+        table.innerHTML = ''; 
+        candidates.forEach(cand => {
+            const row = document.createElement('tr');
+            row.className = 'candidate-row';
+            const isHot = cand.score >= 85;
+            row.innerHTML = `
+                <td>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="avatar" style="background: var(--primary); color: #000;">${cand.name ? cand.name[0] : '?'}</div>
+                        <div>
+                            <div style="font-weight: 700;">${cand.name || 'Anonymous'}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-dim);">@${cand.username || 'n/a'} • ${cand.source}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="score-badge ${isHot ? 'score-high' : ''}">${isHot ? '🔥' : '✅'} ${cand.score}/100</span></td>
+                <td><span style="font-size: 0.8rem; color: var(--text-dim);">${cand.source}</span></td>
+                <td style="text-align: right;"><button class="btn btn-outline btn-nav" onclick="alert('${cand.dossier.replace(/'/g, "\\'").substring(0, 100)}...')">Досьє</button></td>
+            `;
+            table.appendChild(row);
+        });
+    } catch (e) {
+        console.error("Failed to load candidates", e);
+    }
+}
+
+// ─── 3. Dashboard Terminal Simulation ───
 function initDashboardTerminal() {
     const terminal = document.getElementById('dashboard-terminal');
     if (!terminal) return;
@@ -40,15 +155,11 @@ function initDashboardTerminal() {
         const ts = new Date().toLocaleTimeString();
         entry.innerHTML = `<span class="term-ts">[${ts}]</span> ${logs[i % logs.length]}`;
         terminal.appendChild(entry);
-        
-        // Auto-scroll
         terminal.scrollTop = terminal.scrollHeight;
-        
         i++;
         setTimeout(addLog, 2000 + Math.random() * 3000);
     }
     
-    // Start with a few initial logs
     for(let j=0; j<3; j++) {
         const entry = document.createElement('div');
         entry.className = 'term-entry';
@@ -61,11 +172,11 @@ function initDashboardTerminal() {
     setTimeout(addLog, 2000);
 }
 
-// ─── 2. Stats Progress Animation ───
+// ─── 4. Stats Progress Animation ───
 function initStatsAnimation() {
     const bars = document.querySelectorAll('.stat-bar-fill');
     bars.forEach(bar => {
-        const targetWidth = bar.style.width;
+        const targetWidth = bar.getAttribute('style').match(/width:\s*(\d+)%/)[1] + '%';
         bar.style.width = '0%';
         setTimeout(() => {
             bar.style.transition = 'width 2s cubic-bezier(0.2, 0.8, 0.2, 1)';
