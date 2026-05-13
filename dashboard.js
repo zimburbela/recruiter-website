@@ -1,9 +1,9 @@
-/* ═══════════════════════════════════════════════════════════════
-   TalentPulse AI — Dashboard Script
-   ═══════════════════════════════════════════════════════════════ */
+/* -----------------------------------------------------------------------
+   TalentPulse AI - Dashboard Script
+   ----------------------------------------------------------------------- */
 
 const CONFIG = {
-    API_BASE_URL: 'https://zimburbels-recruiter-bot.hf.space/api', 
+    API_BASE_URL: 'https://zimburbels-talentpulse-api.hf.space/api', 
     USE_MOCK: false
 };
 
@@ -29,7 +29,46 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCandidates();
     }
     loadAgents();
+    initHistoryNavigation();
 });
+
+function initHistoryNavigation() {
+    const navHistory = document.getElementById('nav-history');
+    const overviewContent = document.querySelector('.stats-row').parentElement; // Main content wrapper
+    const historyContent = document.getElementById('history-content');
+    const overviewNav = document.querySelector('.nav-item.active');
+
+    if (!navHistory) return;
+
+    navHistory.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Toggle Nav
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        navHistory.classList.add('active');
+
+        // Toggle Content
+        document.querySelector('.stats-row').style.display = 'none';
+        document.querySelector('.dashboard-grid').style.display = 'none';
+        historyContent.style.display = 'block';
+
+        loadHistory();
+    });
+
+    // Handle back to overview
+    const navOverview = document.querySelector('.nav-item:first-child');
+    if (navOverview) {
+        navOverview.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            navOverview.classList.add('active');
+            
+            document.querySelector('.stats-row').style.display = 'grid';
+            document.querySelector('.dashboard-grid').style.display = 'grid';
+            historyContent.style.display = 'none';
+        });
+    }
+}
 
 function checkAuth() {
     const token = localStorage.getItem('token');
@@ -39,7 +78,7 @@ function checkAuth() {
     return token;
 }
 
-// ─── Helper for Fetch with Auth ───
+// --- Helper for Fetch with Auth ---
 async function fetchAuth(url, options = {}) {
     const token = localStorage.getItem('token');
     const headers = {
@@ -49,7 +88,7 @@ async function fetchAuth(url, options = {}) {
     return fetch(url, { ...options, headers });
 }
 
-// ─── 0. Agent Loader ───
+// --- 0. Agent Loader ---
 async function loadAgents() {
     const list = document.getElementById('sidebar-agents');
     if (!list) return;
@@ -86,7 +125,7 @@ async function loadAgents() {
     }
 }
 
-// ─── 1. Stats Loader ───
+// --- 1. Stats Loader ---
 async function loadStats() {
     try {
         let statsData;
@@ -113,7 +152,7 @@ async function loadStats() {
     }
 }
 
-// ─── 2. Candidate Loader ───
+// --- 2. Candidate Loader ---
 async function loadCandidates() {
     const table = document.querySelector('.candidate-table');
     if (!table) return;
@@ -157,7 +196,7 @@ async function loadCandidates() {
     }
 }
 
-// ─── 2.5. Vacancy Loader ───
+// --- 2.5. Vacancy Loader ---
 async function loadVacancies() {
     const table = document.getElementById('vacancies-table');
     if (!table) return;
@@ -205,7 +244,7 @@ async function loadVacancies() {
     }
 }
 
-// ─── 3. Dashboard Terminal Simulation ───
+// --- 3. Dashboard Terminal Simulation ---
 function initDashboardTerminal(role = 'recruiter') {
     const terminal = document.getElementById('dashboard-terminal');
     if (!terminal) return;
@@ -270,7 +309,84 @@ function initDashboardTerminal(role = 'recruiter') {
     setTimeout(addLog, 2000);
 }
 
-// ─── 4. Stats Progress Animation ───
+// --- 4. History Loader ---
+async function loadHistory() {
+    const timeline = document.getElementById('history-timeline');
+    if (!timeline) return;
+
+    try {
+        let history = [];
+        if (CONFIG.USE_MOCK) {
+            history = [
+                { type: 'candidate', title: 'Знайдено кандидата: Олександр К.', time: '14:20', desc: 'React Developer (5 років), Djinni.co. Оцінка: 92/100', meta: '🔥 Hot Lead' },
+                { type: 'vacancy', title: 'Знайдено вакансію: Senior Python', time: '13:45', desc: 'SoftServe, $5000. Відповідність: 98%', meta: 'Djinni.co' },
+                { type: 'candidate', title: 'Знайдено кандидата: Марія Л.', time: '12:10', desc: 'UI/UX Designer, Telegram. Оцінка: 78/100', meta: 'Telegram' },
+                { type: 'system', title: 'Запущено новий пошук', time: '10:00', desc: 'Агент розпочав сканування нових груп у Telegram.', meta: 'System' }
+            ];
+        } else {
+            // Fetch real data and merge
+            const [candRes, vacRes] = await Promise.all([
+                fetchAuth(`${CONFIG.API_BASE_URL}/candidates?limit=20`),
+                fetchAuth(`${CONFIG.API_BASE_URL}/vacancies?limit=20`)
+            ]);
+            
+            const candidates = await candRes.json();
+            const vacancies = await vacRes.json();
+            
+            // Merge and sort
+            history = [
+                ...candidates.map(c => ({ 
+                    type: 'candidate', 
+                    title: `Знайдено кандидата: ${c.name || 'Анонім'}`, 
+                    time: new Date(c.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    desc: `${c.dossier.substring(0, 100)}...`,
+                    meta: `@${c.username || 'n/a'} • ${c.score}/100`,
+                    raw_time: new Date(c.created_at)
+                })),
+                ...vacancies.map(v => ({
+                    type: 'vacancy',
+                    title: `Знайдено вакансію: ${v.title}`,
+                    time: new Date(v.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    desc: `${v.company} - ${v.salary}. Джерело: ${v.source}`,
+                    meta: `${v.match_score}% Match`,
+                    raw_time: new Date(v.created_at)
+                }))
+            ].sort((a, b) => b.raw_time - a.raw_time);
+        }
+
+        if (history.length === 0) {
+            timeline.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-dim);">Історія поки що порожня. Агент працює...</div>';
+            return;
+        }
+
+        timeline.innerHTML = '';
+        history.forEach((item, idx) => {
+            const icon = item.type === 'candidate' ? '👥' : (item.type === 'vacancy' ? '💼' : '⚙️');
+            const el = document.createElement('div');
+            el.className = 'timeline-item';
+            el.style.animationDelay = `${idx * 0.1}s`;
+            el.innerHTML = `
+                <div class="timeline-icon">${icon}</div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <div class="timeline-title">${item.title}</div>
+                        <div class="timeline-time">${item.time}</div>
+                    </div>
+                    <div class="timeline-desc">${item.desc}</div>
+                    <div class="timeline-meta">
+                        <div class="meta-tag"><span>📍</span> ${item.meta}</div>
+                    </div>
+                </div>
+            `;
+            timeline.appendChild(el);
+        });
+    } catch (e) {
+        console.error("Failed to load history", e);
+        timeline.innerHTML = '<div style="text-align: center; padding: 3rem; color: #ff4d6d;">Помилка при завантаженні історії.</div>';
+    }
+}
+
+// --- 5. Stats Progress Animation ---
 function initStatsAnimation() {
     const bars = document.querySelectorAll('.stat-bar-fill');
     bars.forEach(bar => {
