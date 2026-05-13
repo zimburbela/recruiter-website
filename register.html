@@ -18,6 +18,14 @@
         .auth-btn { width: 100%; padding: 1rem; margin-top: 1rem; }
         .auth-footer { margin-top: 2rem; text-align: center; font-size: 0.9rem; color: var(--text-dim); }
         .auth-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .social-auth { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+        .social-btn { display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding: 0.8rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); color: var(--text-pure); cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
+        .social-btn:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--primary); }
+        .social-icon { width: 20px; height: 20px; }
+        .divider { display: flex; align-items: center; margin: 1.5rem 0; color: var(--text-dim); font-size: 0.8rem; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--glass-border); }
+        .divider::before { margin-right: 1rem; }
+        .divider::after { margin-left: 1rem; }
     </style>
 </head>
 <body>
@@ -53,6 +61,23 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-nav full-width auth-btn">Зареєструватись</button>
             </form>
+
+            <div class="divider">або через соціальні мережі</div>
+
+            <div class="social-auth">
+                <button class="social-btn" onclick="socialLogin('google')">
+                    <img src="https://www.google.com/favicon.ico" class="social-icon" alt="Google">
+                    Реєстрація через Google
+                </button>
+                <button class="social-btn" onclick="socialLogin('facebook')">
+                    <img src="https://www.facebook.com/favicon.ico" class="social-icon" alt="Facebook">
+                    Реєстрація через Facebook
+                </button>
+                <button class="social-btn" onclick="socialLogin('instagram')">
+                    <img src="https://www.instagram.com/favicon.ico" class="social-icon" alt="Instagram">
+                    Реєстрація через Instagram
+                </button>
+            </div>
             
             <div class="auth-footer">
                 Вже є акаунт? <a href="login.html" class="auth-link">Увійти</a>
@@ -64,9 +89,9 @@
     <script>
         document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
-            const fullname = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const password = document.getElementById('password').value;
             
             if (!email && !phone) {
@@ -76,31 +101,47 @@
 
             try {
                 const role = document.getElementById('role').value;
-                const res = await fetch('https://zimburbels-recruiter-bot.hf.space/api/auth/register', {
+                const payload = { 
+                    full_name: fullname, 
+                    password: password, 
+                    role: role 
+                };
+                if (email) payload.email = email;
+                if (phone) payload.phone = phone;
+
+                const API_URL = 'https://zimburbels-talentpulse-api.hf.space/api/auth/register';
+                const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, phone, password, full_name: fullname, role })
+                    body: JSON.stringify(payload)
                 });
 
                 const data = await res.json();
                 if (res.ok) {
-                    // Store identifier for verification page
                     localStorage.setItem('verify_identifier', email || phone);
-                    
-                    // IF we have a simulated code, show it (as requested by user for phone/email confirmation feasibility)
                     if (data.verification_code_sim) {
-                        alert(`Реєстрація успішна! Введіть код підтвердження: ${data.verification_code_sim}`);
-                    } else {
-                        alert('Реєстрація успішна! Будь ласка, перевірте свій Email або Телефон на наявність коду доступу.');
+                        alert(`Реєстрація успішна! Ваш код підтвердження: ${data.verification_code_sim}`);
                     }
                     window.location.href = 'verify.html';
                 } else {
-                    alert(data.detail || 'Помилка реєстрації');
+                    console.error('Registration error:', data);
+                    alert(data.detail || 'Помилка реєстрації. Можливо такий email вже існує.');
                 }
             } catch (err) {
-                alert('Неможливо з’єднатися з сервером');
+                console.error('Connection error:', err);
+                alert('Неможливо з’єднатися з сервером (localhost:8000). Будь ласка, переконайтеся, що бекенд-сервер запущено.');
             }
         };
+
+        async function socialLogin(provider) {
+            alert(`Перенаправлення на ${provider}... (Імітація)`);
+            // In a real app, you would redirect to OAuth provider URL
+            // For demo, we simulate a successful login after 1 second
+            setTimeout(() => {
+                alert(`Успішний вхід через ${provider}! Ласкаво просимо.`);
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
     </script>
 </body>
 </html>
