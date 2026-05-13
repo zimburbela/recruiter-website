@@ -21,7 +21,7 @@
     <div class="cursor-glow"></div>
 
     <div class="dashboard-container">
-        <!-- ─── Sidebar ─── -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <a href="index.html" class="sidebar-logo">
                 <span class="logo-icon">⚡</span>
@@ -45,6 +45,15 @@
                     <span class="nav-icon">📈</span>
                     <span class="nav-text">Аналітика</span>
                 </a>
+                <a href="#" class="nav-item" id="nav-history">
+                    <span class="nav-icon">📜</span>
+                    <span class="nav-text">Історія</span>
+                </a>
+                <a href="admin.html" class="nav-item">
+                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-text">Адмін-панель</span>
+                </a>
+
                 <div style="margin: 2rem 0 1rem 1.2rem; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Ваші Агенти</div>
                 <div id="sidebar-agents" style="display: flex; flex-direction: column; gap: 0.3rem;">
                     <!-- Filled by JS -->
@@ -58,7 +67,7 @@
             </nav>
         </aside>
 
-        <!-- ─── Main Content ─── -->
+        <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
             <header class="dashboard-header">
@@ -167,6 +176,26 @@
                         <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem;">Ваш бот-сповіщувач активний.</p>
                         <a href="https://t.me/talentpulse_ai" class="btn btn-primary btn-nav full-width" target="_blank">Відкрити в Telegram</a>
                     </section>
+                </div>
+            </div>
+
+            <!-- History Section (Hidden by default) -->
+            <div id="history-content" style="display: none;">
+                <div class="dash-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Історія активності ШІ</h2>
+                        <div class="filter-group" style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-nav active">Все</button>
+                            <button class="btn btn-outline btn-nav">Кандидати</button>
+                            <button class="btn btn-outline btn-nav">Вакансії</button>
+                        </div>
+                    </div>
+                    <div id="history-timeline" class="timeline-container">
+                        <!-- Filled by JS -->
+                        <div style="text-align: center; padding: 3rem; color: var(--text-dim);">
+                            🔍 Завантаження історії...
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
