@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін-панель | TalentPulse AI</title>
+    <link rel="stylesheet" href="styles_v2.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: var(--bg-surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .admin-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .status-verified { color: var(--success); font-weight: 600; }
+        .status-unverified { color: var(--warning); font-weight: 600; }
+        .action-btn { margin-right: 0.5rem; }
+    </style>
+</head>
+<body class="dashboard-body">
+    <div class="cursor-glow"></div>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">AI <span class="logo-ai">Admin</span></span>
+            </a>
+            <nav class="nav-group">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Дашборд</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Користувачі</span>
+                </a>
+                <a href="index.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">На сайт</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div>
+                    <h1 class="section-title" style="font-size: 2rem;">Керування Користувачами</h1>
+                    <p class="section-desc" style="margin:0;">Перегляд, підтвердження та видалення акаунтів.</p>
+                </div>
+            </header>
+
+            <section class="dash-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ім'я</th>
+                            <th>Контакти</th>
+                            <th>Роль</th>
+                            <th>Статус</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch('/api/admin/users', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error('Помилка завантаження');
+                const users = await res.json();
+                renderUsers(users);
+            } catch (err) {
+                alert('Не вдалося завантажити список користувачів');
+            }
+        }
+
+        function renderUsers(users) {
+            const container = document.getElementById('user-list');
+            container.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td><div style="font-weight:600;">${user.full_name}</div></td>
+                    <td>
+                        <div style="font-size:0.8rem;">${user.email || '-'}</div>
+                        <div style="font-size:0.8rem; color:var(--text-dim);">${user.phone || '-'}</div>
+                    </td>
+                    <td><span class="tag">${user.role}</span></td>
+                    <td>
+                        <span class="${user.is_verified ? 'status-verified' : 'status-unverified'}">
+                            ${user.is_verified ? '● Підтверджено' : '○ Не підтверджено'}
+                        </span>
+                    </td>
+                    <td>
+                        ${!user.is_verified ? `<button class="btn btn-outline btn-nav action-btn" onclick="verifyUser(${user.id})">Підтвердити</button>` : ''}
+                        <button class="btn btn-outline btn-nav action-btn" style="border-color:var(--accent); color:var(--accent);" onclick="deleteUser(${user.id})">Видалити</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function verifyUser(id) {
+            if (!confirm('Підтвердити цей акаунт?')) return;
+            await fetch(`/api/admin/users/${id}/verify`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            loadUsers();
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('Ви впевнені, що хочете видалити цього користувача?')) return;
+            await fetch(`/api/admin/users/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            loadUsers();
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
